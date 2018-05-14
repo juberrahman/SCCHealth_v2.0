@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/round_corner"
+    android:orientation="vertical"
+    tools:context="app.esarp.SCC_Health.LabActivity">
+
+    <TextView
+        android:id="@+id/oneStop"
+        android:layout_margin="16dp"
+        android:layout_height="65dp"
+        style="@style/CategoryStyle"
+        android:background="@drawable/button2"
+        android:text="@string/oneStop" />
+
+    <TextView
+        android:id="@+id/bodytemp"
+        android:layout_height="65dp"
+        android:layout_margin="16dp"
+        style="@style/CategoryStyle"
+        android:background="@drawable/button"
+        android:text="@string/category_bodytemp" />
+
+    <TextView
+        android:id="@+id/sleepapnea"
+        android:layout_height="65dp"
+        android:layout_margin="16dp"
+        style="@style/CategoryStyle"
+        android:background="@drawable/button"
+        android:text="@string/category_sleepapnea" />
+
+
+
+    <TextView
+        android:id="@+id/asthma"
+        android:layout_height="65dp"
+        android:layout_margin="16dp"
+        style="@style/CategoryStyle"
+        android:background="@drawable/button"
+        android:text="@string/category_asthma" />
+
+    <TextView
+        android:id="@+id/arrhythmia"
+        android:layout_height="65dp"
+        android:layout_margin="16dp"
+        style="@style/CategoryStyle"
+        android:background="@drawable/button"
+        android:text="@string/category_arrhythmia" />
+
+</LinearLayout>

@@ -1,0 +1,21 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- Height of each list item -->
+    <dimen name="list_item_height">88dp</dimen>
+
+
+    <!-- Margin around the floating action button in Temp_HistoryActivity -->
+    <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Common margin value used throughout the app -->
+    <dimen name="activity_margin">16dp</dimen>
+
+    <!-- Button style management -->
+    <dimen name="buttonPadding">5dp</dimen>
+    <dimen name="buttonSize">20dp</dimen>
+    <dimen name="gradientRadius">70dp</dimen>
+    <dimen name="corner_button_Size">15dp</dimen>
+    <dimen name="stroke_buttonSize">1dp</dimen>
+</resources>

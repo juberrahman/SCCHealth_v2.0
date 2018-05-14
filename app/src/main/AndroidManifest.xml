@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="nsf.esarplab.scchealth">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+
+    <application
+        android:name=".cBaseApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/flogo"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.AppCompat"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true">
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".FluAlgorithm" />
+        <activity android:name=".About" />
+        <activity android:name=".ArrhythmiaActivity" />
+        <activity android:name=".AsthmaActivity" />
+        <activity android:name=".AutoConnectActivity" />
+        <activity android:name=".BluetoothActivity" />
+        <activity android:name=".BluetoothPair" />
+        <activity android:name=".CloudActivity" />
+        <activity android:name=".ConnectionSettingsActivity" />
+        <activity android:name=".DB_login" />
+        <activity android:name=".DeviceListActivity" />
+        <activity android:name=".DisplayContact" />
+        <activity android:name=".FluActivity" />
+        <activity android:name=".FluMethods" />
+        <activity android:name=".GeneralSettingsActivity" />
+        <activity android:name=".GraphActivity" />
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".LabActivity" />
+        <activity android:name=".ListenerActivity" />
+        <activity android:name=".oneStopService" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".ShowWebChart" />
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".SimpleActivity" />
+        <activity android:name=".SleepApnea" />
+        <activity android:name=".Temp_HistoryActivity" />
+        <activity android:name=".TerminalActivity" />
+        <activity android:name=".TestActivity" />
+        <activity android:name=".WelcomeActivity" />
+        <activity android:name=".WifiActivity" />
+    </application>
+
+</manifest>

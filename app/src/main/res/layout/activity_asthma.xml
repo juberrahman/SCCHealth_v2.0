@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2016;    Embedded System Advanced Research and Prototyping Lab
+                            Department of Electrical and Computer Engineering
+                            The University of Memphis
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/round_corner"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="app.esarp.SCC_Health.AsthmaActivity">
+
+    <LinearLayout
+        android:id="@+id/layout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="Info"
+            android:background="@drawable/gradient"
+            android:textColor="#0010ff"
+            />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+        <TextView
+            android:id="@+id/inst"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:textAllCaps="true"
+            android:layout_height="wrap_content"
+            android:text="Instruction"
+            android:padding="8dp"
+            android:gravity="center"
+            android:textColor="#0010ff"
+            android:background="@drawable/gradient" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout1"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/active_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:text="Active Profile:\t" />
+
+        <TextView
+            android:id="@+id/display_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:text=" " />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/selctsensor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="#000000"
+            android:text="Select a sensor" />
+
+        <RadioGroup
+            android:id="@+id/rg1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkedButton="@+id/rb_hr"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_hr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:textColor="#000000"
+                android:text="Heart Rate" />
+
+            <RadioButton
+                android:id="@+id/rb_o2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:text="SpO2" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/md"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/hr_result"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textbdt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Heart Rate-\t" />
+
+            <TextView
+                android:id="@+id/display_bdt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/texteoi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Severity Rating-\t" />
+
+            <TextView
+                android:id="@+id/display_eoi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/spo2_result"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textspo2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Oxygen Saturation level-\t" />
+
+            <TextView
+                android:id="@+id/display_spo2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/eoispo2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Severity Rating-\t" />
+
+            <TextView
+                android:id="@+id/display_eoispo2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textStatus"
+            android:layout_width="wrap_content"
+            android:padding="5dp"
+            android:layout_height="wrap_content"
+            android:text="Status : Not connected"
+            android:textColor="#000000"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/readCSV"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_margin="5dp"
+            android:layout_height="wrap_content"
+            android:text="connect scanner"
+            android:padding="5dp"
+            android:textAlignment="center"
+            android:onClick="connectScanner"
+            android:textColor="#0010ff"
+            android:background="@drawable/gradient" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+        <Button
+            android:id="@+id/test"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_margin="5dp"
+            android:layout_height="wrap_content"
+            android:text="Start test"
+            android:onClick="setup"
+            android:padding="5dp"
+            android:textAlignment="center"
+            android:textColor="#0010ff"
+            android:background="@drawable/gradient" />
+    </LinearLayout>
+
+</LinearLayout>
+
+
+
+

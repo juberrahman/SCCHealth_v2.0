@@ -1,0 +1,1662 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2016;    Embedded System Advanced Research and Prototyping Lab
+                            Department of Electrical and Computer Engineering
+                            The University of Memphis
+-->
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/round_corner"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="app.esarp.SCC_Health.oneStopService">
+
+    <LinearLayout
+        android:id="@+id/layout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:text="Info"
+            android:background="@drawable/gradient"
+            android:textColor="#0010ff"
+            />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
+        <TextView
+            android:id="@+id/inst"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:textAllCaps="true"
+            android:layout_height="wrap_content"
+            android:text="Instruction"
+            android:padding="8dp"
+            android:gravity="center"
+            android:textColor="#0010ff"
+            android:background="@drawable/gradient" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout1"
+        android:visibility="visible"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/active_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:layout_marginLeft="10dp"
+            android:text="Active Profile:\t" />
+
+        <TextView
+            android:id="@+id/display_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:text=" " />
+
+    </LinearLayout>
+
+    <!--*************Step 1**********Step 1 *************Step 1**********Step 1****************-->
+    <!--***************Connect Scanner Button and Intro layout starts here**********************-->
+
+    <LinearLayout
+        android:id="@+id/layout_intro"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/display_intro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:layout_marginBottom="10dp"
+            android:text="@string/intro" />
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:useDefaultMargins="true"
+            android:columnCount="2"
+            android:rowCount="2">
+
+            <Button
+                android:id="@+id/buttonFlu"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:background="#F06292"
+                android:text="Flu" />
+
+            <Button
+                android:id="@+id/buttonSA"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:background="#E57373"
+                android:text="Sleep Apnea" />
+            <Button
+                android:id="@+id/buttonAsthma"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:background="#BA68C8"
+                android:text="Asthma" />
+
+            <Button
+                android:id="@+id/buttonAR"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:background="#FF9800"
+                android:text="Arrhythmia" />
+
+        </GridLayout>
+
+        <TextView
+            android:id="@+id/display_procedure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/procedure" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="* Connect Scanner\n"
+            android:textColor="#F06292"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="* Collect Data \n"
+            android:textColor="#BA68C8"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="* Compute Severity"
+            android:textColor="#00BFA5"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="#000000"
+            android:text="Please read info and instruction for details." />
+
+    </LinearLayout>
+
+
+
+    <!--*************Step 2**********Step 2 *************Step 2**********Step 2****************-->
+    <!--***************Data Collection Button and Sensor list layout starts here**********************-->
+
+    <LinearLayout
+        android:id="@+id/sensorDisplay"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:text="Sensor Data Collection"
+            android:background="#B39DDB"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/selctsensor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="#000000"
+            android:text="Select a sensor" />
+
+        <RadioGroup
+            android:id="@+id/rg1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkedButton="@+id/rb_bt"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rb_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:buttonTint="#228B22"
+                android:textColor="#000000"
+                android:text="Temperature" />
+            <RadioButton
+                android:id="@+id/rb_resp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="#228B22"
+                android:textColor="#000000"
+                android:text="Respiration" />
+
+            <RadioButton
+                android:id="@+id/rb_o2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="#228B22"
+                android:textColor="#000000"
+                android:text="SpO2" />
+            <RadioButton
+                android:id="@+id/rb_hr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:buttonTint="#228B22"
+                android:textColor="#000000"
+                android:text="Heart Rate" />
+
+
+            <RadioButton
+                android:id="@+id/rb_ecg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="#228B22"
+                android:textColor="#000000"
+                android:text="ECG" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <!--*************Step 3**********Step 3 *************Step 3**********Step 3****************-->
+    <!--***************Compute Severity Button and Sensor Status layout starts here**********************-->
+
+
+<ScrollView
+    android:id="@+id/sensorStatus"
+    android:visibility="gone"
+    android:layout_width="match_parent"
+    android:layout_margin="5dp"
+    android:layout_height="0dp"
+    android:layout_weight="6">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sensor Status"
+            android:textColor="#FFFFFF"
+            android:background="#1DE9B6"
+            android:padding="5dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:gravity="center"/>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:useDefaultMargins="true"
+            android:columnCount="2"
+            android:rowCount="5">
+            <TextView
+                android:id="@+id/sTemp"
+                android:layout_width="0dp"
+                android:layout_columnWeight="2"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:textColor="#000000"
+                android:text="Temperature" />
+            <TextView
+                android:id="@+id/statusTemp"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:background="#F44336" />
+
+            <TextView
+                android:id="@+id/sHR"
+                android:layout_width="0dp"
+                android:layout_columnWeight="2"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:textColor="#000000"
+                android:text="Heart rate" />
+            <TextView
+                android:id="@+id/statusHR"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:background="#F44336" />
+            <TextView
+                android:id="@+id/sBR"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:textColor="#000000"
+                android:text="Breathing rate" />
+            <TextView
+                android:id="@+id/statusBR"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:background="#F44336" />
+
+            <TextView
+                android:id="@+id/sO2"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:textColor="#000000"
+                android:text="Oxygen Saturation" />
+            <TextView
+                android:id="@+id/statusO2"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:background="#F44336" />
+
+            <TextView
+                android:id="@+id/sECG"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:textColor="#000000"
+                android:text="ECG" />
+            <TextView
+                android:id="@+id/statusECG"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:background="#F44336" />
+
+        </GridLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="#00C853"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="#000000"
+                android:text="OK"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="#F44336"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="#000000"
+                android:text="Not OK"/>
+
+
+        </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Severity Ranking Method"
+                android:textColor="#FFFFFF"
+                android:background="#1DE9B6"
+                android:padding="5dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:layout_margin="5dp"
+                android:text="Select a severity Ranking Method "/>
+
+            <LinearLayout
+                android:id="@+id/srMethodFlu"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#9C27B0"
+                    android:text="* Flu"/>
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checkedButton="@+id/b_lin">
+                    <RadioButton
+                        android:id="@+id/b_lin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:buttonTint="#4CAF50"
+                        android:text="Linear"/>
+                    <RadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:buttonTint="#4CAF50"
+                        android:text="Exponential"/>
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <!--<LinearLayout
+                android:id="@+id/srMethodSA"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#9C27B0"
+                    android:text="* Sleep Apnea"/>
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:buttonTint="#4CAF50"
+                        android:text="Linear"/>
+                    <RadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:buttonTint="#4CAF50"
+                        android:text="Exponential"/>
+
+                </RadioGroup>
+
+            </LinearLayout>
+            <LinearLayout
+            android:id="@+id/srMethodCOPD"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#9C27B0"
+                android:text="* COPD"/>
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:buttonTint="#4CAF50"
+                    android:text="Linear"/>
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:buttonTint="#4CAF50"
+                    android:text="Exponential"/>
+
+            </RadioGroup>
+
+        </LinearLayout> <LinearLayout
+            android:id="@+id/srMethodAR"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#9C27B0"
+                android:text="* Arrhythmia"/>
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:buttonTint="#4CAF50"
+                    android:text="Linear"/>
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:buttonTint="#4CAF50"
+                    android:text="Exponential"/>
+
+            </RadioGroup>
+
+        </LinearLayout>-->
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
+
+
+    <!--*************Step 4**********Step 4 *************Step 4**********Step 4****************-->
+    <!--***************Share Button and Display result layout starts here**********************-->
+
+    <ScrollView
+        android:id="@+id/maindisp"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/summary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:gravity="center"
+                android:text="Computed Severity"
+                android:textAllCaps="true"
+                android:textSize="20dp"
+                android:textColor="#bd00ff"/>
+
+            <!--***************Flu  Display starts here**********************-->
+
+            <LinearLayout
+                android:id="@+id/display_flu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/flu"
+                        android:layout_width="0dp"
+                        android:layout_weight="3"
+                        android:layout_height="wrap_content"
+                        android:text="Flu"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/attribute_flu"
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
+                        android:layout_height="wrap_content"
+                        android:text="Temperature-\t"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/value_flu"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="#000000" />
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:id="@+id/fluMainDisplay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/layout2"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
+                    android:typeface="serif">
+
+
+                    <LinearLayout
+                        android:id="@+id/md6_0"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textColor="#000000" />
+                        <TextView
+                            android:id="@+id/severity_flu"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="Severity-\t"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:id="@+id/value_severity_flu"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="100"
+                            android:textColor="#000000" />
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp">
+
+                        <LinearLayout
+                            android:id="@+id/md2_colorline"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="3dp"
+                            android:layout_marginRight="10dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/active_gradient_flu"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/md3_arrow"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:id="@+id/arrow1"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:scaleType="fitStart"
+                                android:src="@drawable/sline"
+                                android:visibility="invisible" />
+
+                            <ImageView
+                                android:id="@+id/arrow2"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:scaleType="fitStart"
+                                android:src="@drawable/sline"
+                                android:visibility="invisible" />
+
+                            <ImageView
+                                android:id="@+id/arrow3"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:scaleType="fitStart"
+                                android:src="@drawable/sline"
+                                android:visibility="invisible" />
+
+                            <ImageView
+                                android:id="@+id/arrow4"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:scaleType="fitStart"
+                                android:src="@drawable/sline"
+                                android:visibility="invisible" />
+
+                            <ImageView
+                                android:id="@+id/arrow5"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:scaleType="fitStart"
+                                android:src="@drawable/sline"
+                                android:visibility="invisible"/>
+
+                            <ImageView
+                                android:id="@+id/arrow6"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:scaleType="fitStart"
+                                android:src="@drawable/sline"
+                                android:visibility="invisible" />
+
+                            <ImageView
+                                android:id="@+id/arrow7"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:scaleType="fitStart"
+                                android:src="@drawable/sline"
+                                android:visibility="invisible" />
+
+                            <ImageView
+                                android:id="@+id/arrow8"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:scaleType="fitStart"
+                                android:src="@drawable/sline"
+                                android:visibility="invisible" />
+
+                            <ImageView
+                                android:id="@+id/arrow9"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:scaleType="fitStart"
+                                android:src="@drawable/sline"
+                                android:visibility="invisible" />
+
+                            <ImageView
+                                android:id="@+id/arrow10"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:scaleType="fitStart"
+                                android:src="@drawable/sline"
+                                android:visibility="invisible" />
+
+                            <ImageView
+                                android:id="@+id/arrow11"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:scaleType="fitStart"
+                                android:src="@drawable/sline"
+                                android:visibility="invisible" />
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+                <!--<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/attribute_flu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Temperature-\t"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/value_flu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="#000000" />
+                </LinearLayout>-->
+
+                <!--<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:textColor="#000000">
+
+                    <TextView
+                        android:id="@+id/severity_text_flu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Severity  -\t"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/severity_value_flu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000" />
+                </LinearLayout>-->
+
+                <!--<LinearLayout
+                    android:id="@+id/md5_prompt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textprompt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Suggestion-\t"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/display_prompt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000" />
+                </LinearLayout>-->
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="3dp"
+                android:background="#B39DDB" />
+
+
+            <!--***************Sleep Apnea Display starts here**********************-->
+
+            <LinearLayout
+                android:id="@+id/display_sleepapnea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/sleepapnea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sleep Apnea"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="#000000" />
+
+                <LinearLayout
+                    android:id="@+id/samd6_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="0"
+                        android:textColor="#000000" />
+                    <TextView
+                        android:id="@+id/severity_sa"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Severity-\t"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/value_severity_sa"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="N/A"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="100"
+                        android:textColor="#000000" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp">
+
+                    <LinearLayout
+                        android:id="@+id/SA_colorline"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/active_gradient_SA"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/sa_arrow"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/sa_arrow1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/sa_arrow2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/sa_arrow3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/sa_arrow4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/sa_arrow5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible"/>
+
+                        <ImageView
+                            android:id="@+id/sa_arrow6"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/sline"
+                            android:visibility="invisible"/>
+
+                        <ImageView
+                            android:id="@+id/sa_arrow7"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/sa_arrow8"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/sa_arrow9"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/sa_arrow10"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/sa_arrow11"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                    </LinearLayout>
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/attribute_sa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Apnea Minutes-\t"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/value_sa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="#000000" />
+                </LinearLayout>
+
+               <!-- <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:textColor="#000000">
+
+                    <TextView
+                        android:id="@+id/severity_text_sa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Severity  -\t"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/severity_value_sa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000" />
+                </LinearLayout>-->
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="3dp"
+                android:background="#B39DDB" />
+
+            <!--***************Arrhythmia Display starts here**********************-->
+            <LinearLayout
+                android:id="@+id/display_arrhythmia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/arrhythmia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Arrhythmia"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="#000000" />
+
+                <LinearLayout
+                    android:id="@+id/armd6_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="0"
+                        android:textColor="#000000" />
+                    <TextView
+                        android:id="@+id/severity_ar"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Severity-\t"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/value_severity_ar"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="N/A"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="100"
+                        android:textColor="#000000" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp">
+
+                    <LinearLayout
+                        android:id="@+id/ar_colorline"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/active_gradient_AR"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ar_arrow"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp">
+
+                        <ImageView
+                            android:id="@+id/ar_arrow1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/ar_arrow2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/ar_arrow3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/ar_arrow4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/ar_arrow5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible"/>
+
+                        <ImageView
+                            android:id="@+id/ar_arrow6"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/ar_arrow7"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/sline"
+                            android:visibility="invisible"/>
+
+                        <ImageView
+                            android:id="@+id/ar_arrow8"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/ar_arrow9"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/ar_arrow10"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/ar_arrow11"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/attribute_ar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Heart Beat-\t"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/value_ar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="#000000" />
+                </LinearLayout>
+
+                <!--<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:textColor="#000000">
+
+                    <TextView
+                        android:id="@+id/severity_text_ar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Severity  -\t"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/severity_value_ar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000" />
+                </LinearLayout>-->
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="3dp"
+                android:background="#B39DDB" />
+
+            <!--***************Asthma Display starts here**********************-->
+
+            <LinearLayout
+                android:id="@+id/display_asthma"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/asthma"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Asthma"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="#000000" />
+
+                <LinearLayout
+                    android:id="@+id/pdmd6_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="0"
+                        android:textColor="#000000" />
+                    <TextView
+                        android:id="@+id/severity_PD"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Severity-\t"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/value_severity_PD"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="N/A"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="100"
+                        android:textColor="#000000" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp">
+
+                    <LinearLayout
+                        android:id="@+id/_colorline"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/active_gradient_PD"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/PD_arrow"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp">
+
+                        <ImageView
+                            android:id="@+id/PD_arrow1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/PD_arrow2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/PD_arrow3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/PD_arrow4"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/PD_arrow5"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/sline"
+                            android:visibility="invisible"/>
+
+                        <ImageView
+                            android:id="@+id/PD_arrow6"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/PD_arrow7"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/PD_arrow8"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/PD_arrow9"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/PD_arrow10"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:id="@+id/PD_arrow11"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/arrow_up"
+                            android:visibility="invisible" />
+
+                    </LinearLayout>
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/attribute1_asthma"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Heart Rate-\t"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/value1_asthma"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="#000000" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/attribute2_asthma"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="SPO2-\t"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/value2_asthma"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="#000000" />
+                </LinearLayout>
+
+               <!-- <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
+                    android:textColor="#000000">
+
+                    <TextView
+                        android:id="@+id/severity_text_asthma"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Severity  -\t"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/severity_value_asthma"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000" />
+                </LinearLayout>-->
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textStatus"
+            android:layout_width="wrap_content"
+            android:padding="5dp"
+            android:layout_height="wrap_content"
+            android:text="Status : Not connected"
+            android:textColor="#000000"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/cScanner"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_margin="5dp"
+            android:layout_height="match_parent"
+            android:text="connect scanner"
+            android:padding="5dp"
+            android:textAlignment="center"
+            android:onClick="connectScanner"
+            android:textColor="#0010ff"
+            android:background="@drawable/gradient" />
+        <!--<View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />-->
+        <Button
+            android:id="@+id/test"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_margin="5dp"
+            android:layout_height="match_parent"
+            android:text="Collect Data"
+            android:onClick="setup"
+            android:padding="5dp"
+            android:textAlignment="center"
+            android:textColor="#0010ff"
+            android:background="@drawable/gradient" />
+        <Button
+            android:id="@+id/displayResult"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_margin="5dp"
+            android:onClick="Algorithm"
+            android:layout_height="match_parent"
+            android:text="Compute Severity"
+            android:padding="5dp"
+            android:textAlignment="center"
+            android:textColor="#0010ff"
+            android:background="@drawable/gradient" />
+        <Button
+            android:id="@+id/shareResult"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_margin="5dp"
+            android:onClick="ShareSeverity"
+            android:layout_height="match_parent"
+            android:text="Share with SCC"
+            android:padding="5dp"
+            android:textAlignment="center"
+            android:textColor="#0010ff"
+            android:background="@drawable/gradient" />
+    </LinearLayout>
+
+</LinearLayout>
+    </ScrollView>

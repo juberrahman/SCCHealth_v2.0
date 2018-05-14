@@ -1,0 +1,29 @@
+
+<!-- Copyright (C) 2016;    Embedded System Advanced Research and Prototyping Lab
+                            Department of Electrical and Computer Engineering
+                            The University of Memphis
+-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/round_corner"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!--<Button
+        android:id="@+id/btnSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Send" />-->
+
+    <Button
+        android:id="@+id/btnConnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="Get List" />
+
+</RelativeLayout>

@@ -5,7 +5,7 @@ android {
     buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "nsf.esarplab.scchealth"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -21,11 +21,11 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':bluetoothlibrary')
     compile files('libs/jfreechart-1.0.19-demo.jar')
-    compile 'com.jjoe64:graphview:4.2.1'
-    compile "com.google.android.gms:play-services-maps:10.0.1"
+    compile files('libs/graphview-3.1.jar')
+    compile 'com.google.android.gms:play-services-maps:10.0.1'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -33,4 +33,5 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha2'
     compile 'com.android.support:multidex:1.0.0'
     testCompile 'junit:junit:4.12'
+    compile files('libs/graphview-3.1.jar')
 }

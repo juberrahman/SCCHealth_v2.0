@@ -174,8 +174,8 @@
     <string name="hello_world">Hello world!</string>
 
     <string name="oneStop">One Stop Service</string>
-    <string name="intro">This is a One Stop Service to diagnose Flu, Sleep Apnea, Asthma and Arrhythmia. Click on a disease to know about it.</string>
-    <string name="procedure">The process involves three steps:</string>
+    <string name="intro">This is a One Stop Service to monitor Flu, Sleep Apnea, Asthma and Arrhythmia. Please read info and instruction for details.</string>
+    <string name="procedure">1. Click on CONNECT SCANNER button.\n2. Click on your Scanner name.\n\n\n   </string>
     <string name="title_activity_listener">ListenerActivity</string>
     <string name="title_activity_auto_connect">AutoConnectActivity</string>
     <string name="title_activity_device_list">Bluetooth Devices</string>

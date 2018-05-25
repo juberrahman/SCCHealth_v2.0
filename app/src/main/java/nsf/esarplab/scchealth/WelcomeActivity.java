@@ -36,7 +36,7 @@ public class WelcomeActivity extends AppCompatActivity {
         //Get Login details
         SharedPreferences prefs = getSharedPreferences("logindetails",MODE_PRIVATE);
         String Uname =  prefs.getString("loginname","Default");
-        displayUsername.setText("\t\t:) "+Uname);
+        displayUsername.setText("\t\tHello "+Uname);
 
         // set notification
         Calendar calender =Calendar.getInstance();

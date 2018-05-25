@@ -355,7 +355,7 @@ public class BluetoothService   {
                 try {
 
                     int data = mmInStream.read();
-                    //Log.i("data", String.valueOf(data));
+                    Log.i("data", String.valueOf(data));
                     sb.append(Integer.toHexString(data));
                     /* arr_transfer.add(data);
                     if (arr_transfer.size() == 2) {

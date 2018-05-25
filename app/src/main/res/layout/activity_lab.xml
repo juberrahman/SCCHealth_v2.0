@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/round_corner"
     android:orientation="vertical"
-    tools:context="app.esarp.SCC_Health.LabActivity">
+    tools:context="nsf.esarplab.scchealth.LabActivity">
 
     <TextView
         android:id="@+id/oneStop"

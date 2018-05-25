@@ -3,26 +3,10 @@ package nsf.esarplab.scchealth;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
-import android.util.Log;
-import android.webkit.WebView;
-
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
-
-import static nsf.esarplab.scchealth.TempContract.TempEntry.COLUMN_DATE_TIME;
-import static nsf.esarplab.scchealth.TempContract.TempEntry.COLUMN_EOI_RATING;
-import static nsf.esarplab.scchealth.TempContract.TempEntry.COLUMN_PATIENT_NAME;
-import static nsf.esarplab.scchealth.TempContract.TempEntry.COLUMN_TEMP_VALUE;
-import static nsf.esarplab.scchealth.TempContract.TempEntry._ID;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class ShowWebChart extends Activity {
-    private TempDbHelper mydb;
+    /*private TempDbHelper mydb;
     WebView webView;
     int num1, num2, num3, num4, num5, num6;
     LineGraphSeries<DataPoint>series;
@@ -59,7 +43,7 @@ public class ShowWebChart extends Activity {
 
         series = new LineGraphSeries <>(dp);
 // set manual X bounds
-        /*graph.getViewport().setYAxisBoundsManual(true);
+        *//*graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMinY(-150);
         graph.getViewport().setMaxY(150);
 
@@ -70,7 +54,7 @@ public class ShowWebChart extends Activity {
         // enable scaling and scrolling
         graph.getViewport().setScalable(true);
         graph.getViewport().setScalableY(true);
-*/
+*//*
 
         graph.addSeries(series);
 
@@ -81,7 +65,7 @@ public class ShowWebChart extends Activity {
         graph.getGridLabelRenderer().setHumanRounding(false);
 
     }
-        /*Intent intent = getIntent();
+        *//*Intent intent = getIntent();
         num1 = intent.getIntExtra("NUM1", 0);
         num2 = intent.getIntExtra("NUM2", 0);
         num3 = intent.getIntExtra("NUM3", 0);

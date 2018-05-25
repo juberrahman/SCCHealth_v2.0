@@ -20,7 +20,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="app.esarp.SCC_Health.oneStopService">
+    tools:context="nsf.esarplab.scchealth.oneStopService">
 
     <LinearLayout
         android:id="@+id/layout1"
@@ -93,7 +93,7 @@
         android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:orientation="vertical">
         <TextView
@@ -103,7 +103,7 @@
             android:textColor="#000000"
             android:layout_marginBottom="10dp"
             android:text="@string/intro" />
-        <GridLayout
+       <!-- <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:useDefaultMargins="true"
@@ -145,38 +145,41 @@
                 android:background="#FF9800"
                 android:text="Arrhythmia" />
 
-        </GridLayout>
-
+        </GridLayout>-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:text="STEP: SETUP CONNECTION"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
         <TextView
             android:id="@+id/display_procedure"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/procedure" />
+            android:text="This step involves the following tasks:" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="* Connect Scanner\n"
+            android:text="\n* Sensor  - Position the Sensor properly.\n"
             android:textColor="#F06292"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="* Collect Data \n"
+            android:text="* Scanner - Turn on the Scanner power. \n"
             android:textColor="#BA68C8"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="* Compute Severity"
-            android:textColor="#00BFA5"/>
-
+            android:text="* App -\n"
+            android:textColor="#FF9800"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textColor="#000000"
-            android:text="Please read info and instruction for details." />
+            android:text="@string/procedure"
+            android:textColor="#000000"/>
 
     </LinearLayout>
 
@@ -193,16 +196,16 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <Button
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
-            android:text="Sensor Data Collection"
-            android:background="#B39DDB"
-            android:gravity="center" />
+            android:textAllCaps="true"
+            android:textColor="#000000"
+            android:text="Step: Data Collection"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
 
         <TextView
             android:id="@+id/selctsensor"
@@ -210,12 +213,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:textColor="#000000"
-            android:text="Select a sensor" />
+            android:layout_marginLeft="4dp"
+            android:text="\nSelect a sensor" />
 
         <RadioGroup
             android:id="@+id/rg1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
             android:checkedButton="@+id/rb_bt"
             android:orientation="vertical">
 
@@ -233,10 +238,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:buttonTint="#228B22"
-                android:textColor="#000000"
+                android:textColor="#D3D3D3"
+                android:clickable="false"
                 android:text="Respiration" />
 
-            <RadioButton
+            <!--<RadioButton
                 android:id="@+id/rb_o2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -251,17 +257,25 @@
                 android:layout_marginRight="10dp"
                 android:buttonTint="#228B22"
                 android:textColor="#000000"
-                android:text="Heart Rate" />
-
+                android:text="ECG/Heart Rate" />-->
 
             <RadioButton
                 android:id="@+id/rb_ecg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:buttonTint="#228B22"
-                android:textColor="#000000"
-                android:text="ECG" />
+                android:textColor="#D3D3D3"
+                android:clickable="false"
+                android:text="ECG/HR" />
         </RadioGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="#000000"
+            android:layout_marginLeft="4dp"
+            android:text="\nClick on COLLECT DATA button." />
 
     </LinearLayout>
 
@@ -269,7 +283,7 @@
     <!--***************Compute Severity Button and Sensor Status layout starts here**********************-->
 
 
-<ScrollView
+<LinearLayout
     android:id="@+id/sensorStatus"
     android:visibility="gone"
     android:layout_width="match_parent"
@@ -284,16 +298,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sensor Status"
-            android:textColor="#FFFFFF"
-            android:background="#1DE9B6"
-            android:padding="5dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:gravity="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:text="STEP: SEVERITY RATING"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="#000000" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:text="1. Check data collection status"
+                android:textColor="#000000" />
 
         <GridLayout
             android:layout_width="match_parent"
@@ -315,7 +335,7 @@
                 android:layout_columnWeight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill_horizontal"
-                android:background="#F44336" />
+                android:background="#000000" />
 
             <TextView
                 android:id="@+id/sHR"
@@ -323,7 +343,7 @@
                 android:layout_columnWeight="2"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill_horizontal"
-                android:textColor="#000000"
+                android:textColor="#D3D3D3"
                 android:text="Heart rate" />
             <TextView
                 android:id="@+id/statusHR"
@@ -331,14 +351,14 @@
                 android:layout_columnWeight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill_horizontal"
-                android:background="#F44336" />
+                android:background="#D3D3D3" />
             <TextView
                 android:id="@+id/sBR"
                 android:layout_width="0dp"
                 android:layout_columnWeight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill_horizontal"
-                android:textColor="#000000"
+                android:textColor="#D3D3D3"
                 android:text="Breathing rate" />
             <TextView
                 android:id="@+id/statusBR"
@@ -346,15 +366,15 @@
                 android:layout_columnWeight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill_horizontal"
-                android:background="#F44336" />
+                android:background="#D3D3D3" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/sO2"
                 android:layout_width="0dp"
                 android:layout_columnWeight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill_horizontal"
-                android:textColor="#000000"
+                android:textColor="#D3D3D3"
                 android:text="Oxygen Saturation" />
             <TextView
                 android:id="@+id/statusO2"
@@ -362,7 +382,7 @@
                 android:layout_columnWeight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill_horizontal"
-                android:background="#F44336" />
+                android:background="#D3D3D3" />-->
 
             <TextView
                 android:id="@+id/sECG"
@@ -370,7 +390,7 @@
                 android:layout_columnWeight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill_horizontal"
-                android:textColor="#000000"
+                android:textColor="#D3D3D3"
                 android:text="ECG" />
             <TextView
                 android:id="@+id/statusECG"
@@ -378,7 +398,7 @@
                 android:layout_columnWeight="1"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill_horizontal"
-                android:background="#F44336" />
+                android:background="#D3D3D3" />
 
         </GridLayout>
         <LinearLayout
@@ -404,7 +424,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:background="#F44336"/>
+                android:background="#000000"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="2"
@@ -423,7 +443,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:orientation="vertical">
-            <TextView
+            <!--<TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Severity Ranking Method"
@@ -432,15 +452,16 @@
                 android:padding="5dp"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:gravity="center"/>
+                android:gravity="center"/>-->
             <TextView
+                android:id="@+id/postStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
                 android:layout_margin="5dp"
-                android:text="Select a severity Ranking Method "/>
+                android:text="2. Click on COMPUTE SEVERITY "/>
 
-            <LinearLayout
+           <!-- <LinearLayout
                 android:id="@+id/srMethodFlu"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -470,7 +491,7 @@
 
                 </RadioGroup>
 
-            </LinearLayout>
+            </LinearLayout>-->
 
             <!--<LinearLayout
                 android:id="@+id/srMethodSA"
@@ -562,7 +583,7 @@
         </LinearLayout>
 
     </LinearLayout>
-</ScrollView>
+</LinearLayout>
 
 
     <!--*************Step 4**********Step 4 *************Step 4**********Step 4****************-->
@@ -610,25 +631,31 @@
 
                     <TextView
                         android:id="@+id/flu"
-                        android:layout_width="0dp"
-                        android:layout_weight="3"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Flu"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="#000000" />
 
                     <TextView
-                        android:id="@+id/attribute_flu"
-                        android:layout_width="0dp"
-                        android:layout_weight="2"
+                        android:id="@+id/screening_flu"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text=" "
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/attribute_flu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
                         android:text="Temperature-\t"
                         android:textColor="#000000" />
 
                     <TextView
                         android:id="@+id/value_flu"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textColor="#000000" />
@@ -1592,10 +1619,11 @@
         <TextView
             android:id="@+id/textStatus"
             android:layout_width="wrap_content"
+            android:background="#D3D3D3"
             android:padding="5dp"
             android:layout_height="wrap_content"
-            android:text="Status : Not connected"
-            android:textColor="#000000"
+            android:text="Not connected to Scanner"
+            android:textColor="#ffffff"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -1659,4 +1687,4 @@
     </LinearLayout>
 
 </LinearLayout>
-    </ScrollView>
+</ScrollView>

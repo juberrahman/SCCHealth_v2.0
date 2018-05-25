@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,11 +14,13 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +33,11 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GraphView.GraphViewData;
+import com.jjoe64.graphview.GraphViewSeries;
+import com.jjoe64.graphview.LineGraphView;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -39,11 +47,14 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
+import dalvik.system.DexClassLoader;
 import nsf.esarplab.bluetoothlibrary.BluetoothSPP;
 import nsf.esarplab.bluetoothlibrary.BluetoothState;
 import nsf.esarplab.bluetoothlibrary.DeviceList;
-import dalvik.system.DexClassLoader;
+
+import static nsf.esarplab.scchealth.R.id.graph1;
 
 public class FluActivity extends AppCompatActivity {
     BluetoothSPP bt;
@@ -51,6 +62,8 @@ public class FluActivity extends AppCompatActivity {
     Float severityRating;
     String s="";
     Intent mIntent;
+    private final Handler mHandler = new Handler();
+    private Runnable mTimer1;
     private int fileSeq=1;
     private TextView connectionRead;
     private TextView mNameText;
@@ -64,7 +77,7 @@ public class FluActivity extends AppCompatActivity {
     private boolean timeKey = false;
     private boolean connected=false;
     private int sensor = 1;
-    private String tempReceived, eoiValue;
+    private String tempReceived, eoiValue, sSeverity;
     private String currentDateTime = "";
     private TextView Vdatetime, gradient, Textv, Veoi, Vprompt;
     //String mealId = " ";
@@ -74,11 +87,18 @@ public class FluActivity extends AppCompatActivity {
     private String sTemperature="";
     private Menu menu;
     private ImageView arrow1, arrow2, arrow3, arrow4, arrow5, arrow6, arrow7, arrow8, arrow9, arrow10, arrow11;
-    private LinearLayout mDisplay;
+    private LinearLayout mDisplay, graph;
     private ArrayList<String> arr_hex = new ArrayList<String>();
     private ArrayList<Short> arr_received = new ArrayList<Short>();
     private ProgressDialog progressDialog;
     private CountDownTimer Count;
+    private PopupWindow pw;
+    private GraphView graphView1;
+    private GraphViewSeries exampleSeries1;
+    private double sensorX = 0;
+    private List<GraphViewData> seriesX;
+    int dataCount = 1;
+
     //temp db finish
 
     @Override
@@ -118,6 +138,19 @@ public class FluActivity extends AppCompatActivity {
         Vprompt = (TextView) findViewById(R.id.display_prompt);
         connectionRead = (TextView) findViewById(R.id.textStatus);
         mDisplay = (LinearLayout) findViewById(R.id.maindisplay);
+        graph=(LinearLayout) findViewById(R.id.graph1);
+        arrow1 = (ImageView) findViewById(R.id.arrow1);
+        arrow2 = (ImageView) findViewById(R.id.arrow2);
+        arrow3 = (ImageView) findViewById(R.id.arrow3);
+        arrow4 = (ImageView) findViewById(R.id.arrow4);
+        arrow5 = (ImageView) findViewById(R.id.arrow5);
+        arrow6 = (ImageView) findViewById(R.id.arrow6);
+        arrow7 = (ImageView) findViewById(R.id.arrow7);
+        arrow8 = (ImageView) findViewById(R.id.arrow8);
+        arrow9 = (ImageView) findViewById(R.id.arrow9);
+        arrow10 = (ImageView) findViewById(R.id.arrow10);
+        arrow11 = (ImageView) findViewById(R.id.arrow11);
+
         // Set active profile
 
         //Show active profile
@@ -126,6 +159,21 @@ public class FluActivity extends AppCompatActivity {
         mNameText.setText("\t\t"+Uname);
 
         s = mNameText.getText().toString().trim();
+
+        //show graph
+
+        seriesX = new ArrayList<GraphViewData>();
+        // init example series data
+        exampleSeries1 = new GraphViewSeries(new GraphViewData[] {});
+
+            graphView1 = new LineGraphView(
+                    this // context
+                    , "Real time plot" // heading
+            );
+
+        graphView1.addSeries(exampleSeries1); // data
+        LinearLayout layout = (LinearLayout) findViewById(graph1);
+        layout.addView(graphView1);
 
         /*
         //reading text from file
@@ -154,6 +202,19 @@ public class FluActivity extends AppCompatActivity {
         // hide main display
 
         mDisplay.setVisibility(View.INVISIBLE);
+        graph.setVisibility(View.INVISIBLE);
+        arrow1.setVisibility(View.INVISIBLE);
+        arrow2.setVisibility(View.INVISIBLE);
+        arrow3.setVisibility(View.INVISIBLE);
+        arrow4.setVisibility(View.INVISIBLE);
+        arrow5.setVisibility(View.INVISIBLE);
+        arrow6.setVisibility(View.INVISIBLE);
+        arrow7.setVisibility(View.INVISIBLE);
+        arrow8.setVisibility(View.INVISIBLE);
+        arrow9.setVisibility(View.INVISIBLE);
+        arrow10.setVisibility(View.INVISIBLE);
+        arrow11.setVisibility(View.INVISIBLE);
+
 
 // Find the View that shows the save button
         /*Button save = (Button) findViewById(R.id.save);
@@ -258,19 +319,17 @@ public class FluActivity extends AppCompatActivity {
             }
         });
 
+        dispResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               tempAlgorithm(v);
+
+            }
+        });
+
         //EOI color ranking
         //LinearLayout mainDisplay=(LinearLayout) findViewById(R.id.maindisplay);
-        arrow1 = (ImageView) findViewById(R.id.arrow1);
-        arrow2 = (ImageView) findViewById(R.id.arrow2);
-        arrow3 = (ImageView) findViewById(R.id.arrow3);
-        arrow4 = (ImageView) findViewById(R.id.arrow4);
-        arrow5 = (ImageView) findViewById(R.id.arrow5);
-        arrow6 = (ImageView) findViewById(R.id.arrow6);
-        arrow7 = (ImageView) findViewById(R.id.arrow7);
-        arrow8 = (ImageView) findViewById(R.id.arrow8);
-        arrow9 = (ImageView) findViewById(R.id.arrow9);
-        arrow10 = (ImageView) findViewById(R.id.arrow10);
-        arrow11 = (ImageView) findViewById(R.id.arrow11);
+
 
         //mainDisplay.setVisibility(View.INVISIBLE);
 
@@ -300,6 +359,13 @@ public class FluActivity extends AppCompatActivity {
                         Log.i("val2@final", String.valueOf(val));
                         arr_received.add(val);
                         //Textv.append(Integer.toString(val) + "\n");
+                        seriesX.add(new GraphViewData(dataCount, val));
+                        dataCount++;
+                        if (arr_received.size() > 600) {
+                            seriesX.remove(0);
+                            graphView1.setViewPort(dataCount - 600, 600);
+
+                        }
                         try {
                             writeToCsv(Integer.toString(val));
                         } catch (IOException e) {
@@ -312,17 +378,17 @@ public class FluActivity extends AppCompatActivity {
 
 
                 } else {
-                    if (readAscii.equals("BT")) {
+                    if (readAscii.equals("OS")) {
 
                         bt.send("TP", true);
                         diseaseKey = true;
 
                     } else {
                         if (readAscii.equals("TP") && diseaseKey) {
-                            bt.send("05", true);
+                            bt.send("00020", true);
                             sensorKey = true;
                         } else {
-                            if (readAscii.equals("05") && diseaseKey && sensorKey) {
+                            if (readAscii.equals("00020") && diseaseKey && sensorKey) {
                                 bt.send("OK", true);
                                 timeKey = true;
 
@@ -339,7 +405,7 @@ public class FluActivity extends AppCompatActivity {
                                 arrow9.setVisibility(View.INVISIBLE);
                                 arrow10.setVisibility(View.INVISIBLE);
                                 arrow11.setVisibility(View.INVISIBLE);
-                                Textv.setText("Failed Handshake");
+                                Toast.makeText(getApplicationContext(), "Failed Handshake", Toast.LENGTH_LONG).show();
                                 Count.cancel();
                                 progressDialog.dismiss();
 
@@ -351,6 +417,8 @@ public class FluActivity extends AppCompatActivity {
 
         });
 
+
+
         bt.setBluetoothConnectionListener(new BluetoothSPP.BluetoothConnectionListener() {
             public void onDeviceDisconnected() {
                 connectionRead.setText("Status : Not connect");
@@ -361,6 +429,16 @@ public class FluActivity extends AppCompatActivity {
 
             public void onDeviceConnectionFailed() {
                 connectionRead.setText("Status : Connection failed");
+                AlertDialog alertDialog = new AlertDialog.Builder(FluActivity.this).create();
+                //alertDialog.setTitle("Instruction");
+                alertDialog.setMessage("Connection Error, Retry");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
             }
 
             public void onDeviceConnected(String name, String address) {
@@ -461,6 +539,10 @@ public class FluActivity extends AppCompatActivity {
                 Vdatetime.setText("");
                 Vprompt.setText("");
                 Veoi.setText("");
+                graph.setVisibility(View.INVISIBLE);
+                arr_received.clear();
+                seriesX.clear();
+                dataCount = 1;
                 mDisplay.setVisibility(View.INVISIBLE);
                 diseaseKey = false;
                 sensorKey = false;
@@ -551,7 +633,21 @@ public class FluActivity extends AppCompatActivity {
             }
         }
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mTimer1 = new Runnable() {
+            @Override
+            public void run() {
+                GraphViewData[] gvd = new GraphViewData[seriesX.size()];
+                seriesX.toArray(gvd);
+                exampleSeries1.resetData(gvd);
+                mHandler.post(this); //, 100);
+            }
+        };
+        mHandler.postDelayed(mTimer1, 100);
 
+    }
 
     public void setup() {
 
@@ -559,14 +655,15 @@ public class FluActivity extends AppCompatActivity {
             public void onClick(View v) {
                 {
                     if (connected) {
-                        bt.send("BT", true);
+                        bt.send("OS", true);
+                        graph.setVisibility(View.VISIBLE);
                         // progress indicator
                         progressDialog = new ProgressDialog(FluActivity.this,
                                 R.style.AppTheme_Dark_Dialog);
                         progressDialog.setIndeterminate(true);
                         progressDialog.setMessage("Collecting data...");
 
-                        Count=new CountDownTimer(10000, 1000) {
+                        Count=new CountDownTimer(500, 100) {
 
                             public void onTick(long millisecondsUntilDone) {
 
@@ -577,16 +674,7 @@ public class FluActivity extends AppCompatActivity {
                             public void onFinish() {
                                 Log.i("Done", "Count Down Timer Finished");
                                 progressDialog.dismiss();
-                                AlertDialog alertDialog = new AlertDialog.Builder(FluActivity.this).create();
-                                alertDialog.setTitle("Instruction");
-                                alertDialog.setMessage("Click on COMPUTE to See Test Result");
-                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        });
-                                alertDialog.show();
+
                             }
                         }.start();
 
@@ -619,27 +707,27 @@ public class FluActivity extends AppCompatActivity {
         float avgValue1 = 0.0f;
         float avgValue2 = 0.0f;
         float resultVoltage=0.0f;
-        float temperature=0.0f;
+        double temperature=0.0f;
 
         // make main display visible and hide arrows
         mDisplay.setVisibility(View.VISIBLE);
-        arrow1.setVisibility(View.INVISIBLE);
-        arrow2.setVisibility(View.INVISIBLE);
-        arrow3.setVisibility(View.INVISIBLE);
-        arrow4.setVisibility(View.INVISIBLE);
-        arrow5.setVisibility(View.INVISIBLE);
-        arrow6.setVisibility(View.INVISIBLE);
-        arrow7.setVisibility(View.INVISIBLE);
-        arrow8.setVisibility(View.INVISIBLE);
-        arrow9.setVisibility(View.INVISIBLE);
-        arrow10.setVisibility(View.INVISIBLE);
-        arrow11.setVisibility(View.INVISIBLE);
+//        arrow1.setVisibility(View.INVISIBLE);
+//        arrow2.setVisibility(View.INVISIBLE);
+//        arrow3.setVisibility(View.INVISIBLE);
+//        arrow4.setVisibility(View.INVISIBLE);
+//        arrow5.setVisibility(View.INVISIBLE);
+//        arrow6.setVisibility(View.INVISIBLE);
+//        arrow7.setVisibility(View.INVISIBLE);
+//        arrow8.setVisibility(View.INVISIBLE);
+//        arrow9.setVisibility(View.INVISIBLE);
+//        arrow10.setVisibility(View.INVISIBLE);
+//        arrow11.setVisibility(View.INVISIBLE);
 
         // display when there is no data
         if (arr_received.size() == 0) {
             mDisplay.setVisibility(View.VISIBLE);
             Textv.setText("No Data");
-            Veoi.setText("No Data");
+            // Veoi.setText("No Data");
         } else {
 
             // get date and time
@@ -648,18 +736,57 @@ public class FluActivity extends AppCompatActivity {
             // initialize the screen
             Vdatetime.setText("");
             Textv.setText("");
-            Vprompt.setText("");
-            Veoi.setText("");
+            //Vprompt.setText("");
+            //Veoi.setText("");
 
             // temperature processing begin
-            for (int i = 0; i < arr_received.size(); i++) {
-                if ((arr_received.get(i)>1000)&&(arr_received.get(i)<9000)) {
+
+           /* for (int i = 0; i < arr_received.size(); i++) {
+                if ((arr_received.get(i)>0)&&(arr_received.get(i)<9000)) {
                     arr_trans.add(arr_received.get(i));
 
                     Log.i("transferrred", "" + arr_received.get(i));
 
                 }
+            }*/
+// find minima index
+
+            for (int i = 99; i < arr_received.size(); i++) {
+
+                arr_trans.add(arr_received.get(i));
+
+                Log.i("transferrred", "" + arr_received.get(i));
+
             }
+
+
+            int min =arr_trans.get(0);
+            for (int i=0;i<arr_trans.size(); i++){
+                if(arr_trans.get(i)< min){
+                    min = arr_trans.get(i);
+                }
+            }
+            //System.out.println(min);
+
+            // Finding the index of minima
+
+            int indexOfMinima=0;
+
+            for (int j=0; j<arr_trans.size(); j++)
+
+            {
+                if (min==arr_trans.get(j)){
+                    indexOfMinima=j;
+                    break;
+                }
+            }
+// end of finding minima index
+            Log.i("Delay", "" + indexOfMinima);
+            // equation for temperature
+            temperature= 134.44-(0.0773*(indexOfMinima));
+
+            double temp2=0.0004*indexOfMinima*indexOfMinima-0.4408*indexOfMinima+211.08;
+            Log.i("temp", "" + temp2);
             Log.i("sizer", "" + arr_received.size());
             Log.i("sizet", "" + arr_trans.size());
             for (int j = 0; j < arr_trans.size(); j++) {
@@ -693,11 +820,11 @@ public class FluActivity extends AppCompatActivity {
             resultVoltage = avgValue1 - avgValue2;
             Log.i("Result", "" + resultVoltage);
 
-            temperature=(resultVoltage/350)*75;
+            //temperature=(resultVoltage/1000)*105;
 
-            String sSeverity="";
+            //String sSeverity="";
             //String result = dexcallFluSeverity(new Integer(100));
-            String result = dexcallFluSeverity(new Integer(Math.round(resultVoltage)));
+            //String result = dexcallFluSeverity(new Integer(Math.round(resultVoltage)));
 
 
             try {
@@ -756,12 +883,12 @@ public class FluActivity extends AppCompatActivity {
             Vdatetime.setText(currentDateTime);
 
             //Textv.append(sTemperature+"°F");
-            Textv.append(resultVoltage+"°F");
+            Textv.append(String.format("%.1f",temperature)+"°F");
 
             Vprompt.append(prompt );
             //Veoi.append("fluSeverity(100) = " + result);
 
-            Veoi.append( result);
+            Veoi.append( sSeverity);
         }
 
         // end temperature processing
@@ -774,6 +901,26 @@ public class FluActivity extends AppCompatActivity {
         timeKey = false;
         diseaseKey = false;
         sensorKey = false;
+    }
+
+
+    private void initiatePopupWindow(View v) {
+        try {
+            //We need to get the instance of the LayoutInflater, use the context of this activity
+            LayoutInflater inflater = (LayoutInflater) FluActivity.this
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            //Inflate the view from a predefined XML layout
+            View layout = inflater.inflate(R.layout.flu_symp,
+                    (ViewGroup) findViewById(R.id.popup_element));
+            // create a 300px width and 470px height PopupWindow
+            pw = new PopupWindow(layout, 300, 470, true);
+            // display the popup in the center
+            pw.showAtLocation(v, Gravity.CENTER, 0, 0);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

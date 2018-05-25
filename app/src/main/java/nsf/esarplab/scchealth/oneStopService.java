@@ -3,6 +3,7 @@ package nsf.esarplab.scchealth;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -20,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,9 +53,9 @@ public class oneStopService extends AppCompatActivity {
 
     BluetoothSPP bt;
     private TextView intro, btData, brData,hrData, ecData, oximetryData, connectionRead;
-    private TextView statusTemp, statusHR, statusBR, statusO2, statusECG, gradientFlu,gradientSA,gradientAR,gradientPD;
-    private LinearLayout layout1,layoutIntro,layoutProfile,sensorDisplay;
-    private ScrollView sensorStatus, mDisplay;
+    private TextView statusTemp, statusHR, statusBR, statusO2, statusECG, gradientFlu,gradientSA,gradientAR,gradientPD, fluScreening,postStatus;
+    private LinearLayout layout1,layoutIntro,layoutProfile,sensorDisplay,sensorStatus;
+    private ScrollView  mDisplay;
     EditText etMessage;
     private GoogleApiClient client;
     private Button connectScanner, collectData, dispResult, shareResult;
@@ -80,6 +83,12 @@ public class oneStopService extends AppCompatActivity {
     private ArrayList<Integer> arr_respiration = new ArrayList<Integer>();
     private String currentDateTime = "";
     String s = "";
+    private PopupWindow mPopupWindow;
+    private CheckBox ch1,ch2;
+    private double temperature=0.0f;
+    private ProgressDialog progressDialog;
+    private CountDownTimer Count;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +104,7 @@ public class oneStopService extends AppCompatActivity {
         layout1=(LinearLayout)findViewById(R.id.layout1);
         layoutIntro=(LinearLayout)findViewById(R.id.layout_intro);
         layoutProfile=(LinearLayout)findViewById(R.id.layout2);
-        sensorStatus=(ScrollView) findViewById(R.id.sensorStatus);
+        sensorStatus=(LinearLayout) findViewById(R.id.sensorStatus);
 
         intro=(TextView) findViewById(R.id.display_intro);
         sensorDisplay=(LinearLayout) findViewById(R.id.sensorDisplay);
@@ -107,8 +116,10 @@ public class oneStopService extends AppCompatActivity {
         statusTemp=(TextView) findViewById(R.id.statusTemp);
         statusHR=(TextView) findViewById(R.id.statusHR);
         statusBR=(TextView) findViewById(R.id.statusBR);
-        statusO2=(TextView) findViewById(R.id.statusO2);
+        //statusO2=(TextView) findViewById(R.id.statusO2);
         statusECG=(TextView) findViewById(R.id.statusECG);
+        fluScreening=(TextView) findViewById(R.id.screening_flu);
+        postStatus=(TextView) findViewById(R.id.postStatus);
 
         oximetryData=(TextView) findViewById(R.id.display_spo2);
         connectionRead = (TextView) findViewById(R.id.textStatus);
@@ -130,7 +141,6 @@ public class oneStopService extends AppCompatActivity {
         mNameText.setText("\t\t"+Uname);
 
         s = mNameText.getText().toString().trim();
-        // Set radio button color
 
         // color line gradient
 
@@ -152,10 +162,10 @@ public class oneStopService extends AppCompatActivity {
 
         radioGroup = (RadioGroup) findViewById(R.id.rg1);
         rb1 = (RadioButton) findViewById(R.id.rb_bt);
-        rb2 = (RadioButton) findViewById(R.id.rb_o2);
-        rb3 = (RadioButton) findViewById(R.id.rb_hr);
-        rb4 = (RadioButton) findViewById(R.id.rb_resp);
-        rb5 = (RadioButton) findViewById(R.id.rb_ecg);
+        //rb2 = (RadioButton) findViewById(R.id.rb_o2);
+        //rb3 = (RadioButton) findViewById(R.id.rb_hr);
+        //rb4 = (RadioButton) findViewById(R.id.rb_resp);
+        //rb5 = (RadioButton) findViewById(R.id.rb_ecg);
         rb1.setTextColor(Color.BLUE);
 
 
@@ -169,10 +179,10 @@ public class oneStopService extends AppCompatActivity {
                 int selectedId = radioGroup.getCheckedRadioButtonId();
                 RadioButton selected = (RadioButton) findViewById(selectedId);
                 rb1.setTextColor(Color.BLACK);
-                rb2.setTextColor(Color.BLACK);
-                rb3.setTextColor(Color.BLACK);
-                rb4.setTextColor(Color.BLACK);
-                rb5.setTextColor(Color.BLACK);
+                //rb2.setTextColor(Color.BLACK);
+                //rb3.setTextColor(Color.BLACK);
+                //rb4.setTextColor(Color.BLACK);
+                //rb5.setTextColor(Color.BLACK);
 
                 selected.setTextColor(Color.BLUE);
                 // checkedId is the RadioButton selected
@@ -337,7 +347,19 @@ public class oneStopService extends AppCompatActivity {
                                 bt.send("OK", true);
                                 handShake = true;
                             }else {
-                                hrData.append("Failed Handshake");
+                                AlertDialog alertDialog = new AlertDialog.Builder(oneStopService.this).create();
+                                alertDialog.setTitle("Failed Handshake");
+                                alertDialog.setMessage("Restart Scanner and re-connect");
+                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                alertDialog.show();
+                                //progressDialog.dismiss();
+                                //Count.cancel();
+
                             }
                         }
                     }
@@ -349,16 +371,32 @@ public class oneStopService extends AppCompatActivity {
         bt.setBluetoothConnectionListener(new BluetoothSPP.BluetoothConnectionListener() {
             public void onDeviceDisconnected() {
                 connectionRead.setText("Status : Not connect");
+                connectionRead.setBackgroundColor(Color.parseColor("#D3D3D3"));
                 menu.clear();
                 getMenuInflater().inflate(R.menu.menu_connection, menu);
             }
 
             public void onDeviceConnectionFailed() {
                 connectionRead.setText("Status : Connection failed");
+                connectionRead.setBackgroundColor(Color.parseColor("#D3D3D3"));
+                AlertDialog alertDialog = new AlertDialog.Builder(oneStopService.this).create();
+                alertDialog.setTitle("Connection Error");
+                //alertDialog.setMessage("Retry to connect");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Retry",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                bt.setDeviceTarget(BluetoothState.DEVICE_OTHER);
+                                Intent intent = new Intent(getApplicationContext(), DeviceList.class);
+                                startActivityForResult(intent, BluetoothState.REQUEST_CONNECT_DEVICE);
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
             }
 
             public void onDeviceConnected(String name, String address) {
                 connectionRead.setText("Status : Connected to " + name);
+                connectionRead.setBackgroundColor(Color.parseColor("#228B22"));
                 menu.clear();
                 getMenuInflater().inflate(R.menu.menu_disconnection, menu);
                 sensorDisplay.setVisibility(View.VISIBLE);
@@ -454,7 +492,7 @@ public class oneStopService extends AppCompatActivity {
             }
         });
 
-        final TextView btnFluInfo = (Button) findViewById(R.id.buttonFlu);
+        /*final TextView btnFluInfo = (Button) findViewById(R.id.buttonFlu);
         btnFluInfo.setOnClickListener(new Button.OnClickListener() {
 
             @Override
@@ -568,7 +606,7 @@ public class oneStopService extends AppCompatActivity {
                 popupWindow.showAsDropDown(btnOpenPopup, 50, -30);
 
             }
-        });
+        });*/
         // connect scanner by bluetooth
 
         connectScanner.setOnClickListener(new View.OnClickListener() {
@@ -763,9 +801,9 @@ public class oneStopService extends AppCompatActivity {
                     final ProgressDialog progressDialog = new ProgressDialog(oneStopService.this,
                             R.style.AppTheme_Dark_Dialog);
                     progressDialog.setIndeterminate(true);
-                    progressDialog.setMessage("Collecting data...");
+                    progressDialog.setMessage("Handshaking & Collecting data...");
 
-                    new CountDownTimer(10000, 1000) {
+                    new CountDownTimer(1000, 500) {
 
                         public void onTick(long millisecondsUntilDone) {
 
@@ -776,6 +814,22 @@ public class oneStopService extends AppCompatActivity {
                         public void onFinish() {
                             Log.i("Done", "Count Down Timer Finished");
                             progressDialog.dismiss();
+                            if(handShake){
+                                sensorDisplay.setVisibility(View.GONE);
+                                collectData.setVisibility(View.GONE);
+                                // make compute button visible
+                                dispResult.setVisibility(View.VISIBLE);
+                                sensorStatus.setVisibility(View.VISIBLE);
+                                //statusTemp.setBackgroundColor(Color.parseColor("#4CAF50"));
+                            }else{
+                                Toast.makeText(getApplicationContext(), "Handshaking Error", Toast.LENGTH_LONG).show();
+                            }
+                            if (arr_received.size() > 100) {
+                                statusTemp.setBackgroundColor(Color.parseColor("#4CAF50"));
+                                postStatus.setText("2. Click on COMPUTE SEVERITY ");
+                            } else {
+                                postStatus.setText("2. Position Sensor properly, Refresh and collect data again");
+                            }
                             // after timer delay
                                 /*sensorDisplay.setVisibility(View.GONE);
                                 collectData.setVisibility(View.GONE);
@@ -796,13 +850,6 @@ public class oneStopService extends AppCompatActivity {
                         }
                     }.start();
 
-
-                    sensorDisplay.setVisibility(View.GONE);
-                    collectData.setVisibility(View.GONE);
-                    // make compute button visible
-                    dispResult.setVisibility(View.VISIBLE);
-                    sensorStatus.setVisibility(View.VISIBLE);
-                    statusTemp.setBackgroundColor(Color.parseColor("#4CAF50"));
 
 
                 }
@@ -825,21 +872,58 @@ public class oneStopService extends AppCompatActivity {
         dispResult.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 {
+
                     if (handShake) {
-                        //test.setVisibility(View.GONE);
-                        layout1.setVisibility(View.GONE);
-                        layoutIntro.setVisibility(View.GONE);
-                        sensorStatus.setVisibility(View.GONE);
-                        mDisplay.setVisibility(View.VISIBLE);
-                        shareResult.setVisibility(View.VISIBLE);
-                        dispResult.setVisibility(View.GONE);
+
                         fluAlgorithm();
                         sleepapneaAlgorithm();
                         arrhythmiaAlgorithm();
                         asthmaAlgorithm();
+                        if(temperature>100) {
+                            LayoutInflater layoutInflater
+                                    = (LayoutInflater) getBaseContext()
+                                    .getSystemService(LAYOUT_INFLATER_SERVICE);
+                            View popupView = layoutInflater.inflate(R.layout.flu_symp, null);
+                            final PopupWindow popupWindow = new PopupWindow(
+                                    popupView,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT);
 
-                    }else{
-                        Toast.makeText(getApplicationContext(), "Refresh and Collect Data Again", Toast.LENGTH_LONG).show();
+                            Button btnDismiss = (Button) popupView.findViewById(R.id.dismiss);
+                            ch1 = (CheckBox) popupView.findViewById(R.id.checkBox1);
+                            ch2 = (CheckBox) popupView.findViewById(R.id.checkBox2);
+                            btnDismiss.setOnClickListener(new Button.OnClickListener() {
+
+                                @Override
+                                public void onClick(View v) {
+                                    // TODO Auto-generated method stub
+                                    popupWindow.dismiss();
+                                    layout1.setVisibility(View.GONE);
+                                    layoutIntro.setVisibility(View.GONE);
+                                    sensorStatus.setVisibility(View.GONE);
+                                    mDisplay.setVisibility(View.VISIBLE);
+                                    shareResult.setVisibility(View.VISIBLE);
+                                    dispResult.setVisibility(View.GONE);
+                                    fluScreening.setText("Symptomps-Yes");
+
+                                }
+                            });
+
+                            popupWindow.showAsDropDown(dispResult, 50, 30);
+                        }else {
+
+                            //test.setVisibility(View.GONE);
+                            layout1.setVisibility(View.GONE);
+                            layoutIntro.setVisibility(View.GONE);
+                            sensorStatus.setVisibility(View.GONE);
+                            mDisplay.setVisibility(View.VISIBLE);
+                            shareResult.setVisibility(View.VISIBLE);
+                            dispResult.setVisibility(View.GONE);
+                            fluScreening.setText("Symptomps-No");
+                        }
+
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Restart Scanner and Collect Data Again", Toast.LENGTH_LONG).show();
                     }
 
                 }
@@ -898,7 +982,6 @@ public class oneStopService extends AppCompatActivity {
         float avgValue1 = 0.0f;
         float avgValue2 = 0.0f;
         float resultVoltage=0.0f;
-        double temperature=0.0f;
         double ratingOfEOI=0.0f;
 
         // make main display visible and hide arrows

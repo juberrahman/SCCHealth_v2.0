@@ -17,8 +17,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -47,7 +45,7 @@ public class TerminalActivity extends AppCompatActivity {
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    private GoogleApiClient client;
+    //private GoogleApiClient client;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +80,7 @@ public class TerminalActivity extends AppCompatActivity {
             public void onDataReceived(byte[] data, String message) {
                 int val = 0;
                 String readAscii = new String(data);
-                //textRead.append(readAscii);
+                textRead.append(readAscii);
                 Log.i("Str@activity", String.valueOf(readAscii));
 
                 arr_hex.add(message);
@@ -173,7 +171,7 @@ public class TerminalActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();// ATTENTION: This was auto-generated to implement the App Indexing API.
 // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
+        //client.connect();
         if (!bt.isBluetoothEnabled()) {
             Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(intent, BluetoothState.REQUEST_ENABLE_BT);
@@ -245,7 +243,7 @@ public class TerminalActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         //AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
+        //client.disconnect();
     }
 
     //write to csv file

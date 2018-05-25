@@ -2,6 +2,8 @@ package nsf.esarplab.scchealth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -39,6 +41,10 @@ public class HomeActivity extends AppCompatActivity {
 
         // Find the switch that turn on/off bluetooth
         btSwitch = (Switch) findViewById(R.id.mySwitch);
+
+        //Get Login details
+        SharedPreferences prefs = getSharedPreferences("logindetails",MODE_PRIVATE);
+        String Uname =  prefs.getString("loginname","Default");
 
 
         // Find the switch that turn on/off wifi
@@ -156,6 +162,11 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
+        // put setting not clickable
+        if (!(Uname.matches("admin"))){
+            setting.setClickable(false);
+            setting.setBackgroundColor(Color.GRAY);
+        }
         // manage switch to turn wifi on/off
 
        /* wifiManager = (WifiManager) this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);

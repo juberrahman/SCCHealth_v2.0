@@ -8,14 +8,100 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_margin="1dp"
+        android:layout_margin="10dp"
         android:background="@drawable/back">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textAllCaps="true"
+            android:text="Instruction\n"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textColor="#000000"
+            android:text="1. Wear an appropriate sensor"/>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:stretchColumns="1">
+            <TableRow>
+                <TextView
+                    android:text="Disease"
+                    android:textColor="#000000"
+                    android:gravity="left"
+                    android:textStyle="bold"
+                    android:padding="3dip" />
+                <TextView
+                    android:text="Required Sensor"
+                    android:gravity="left"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:paddingLeft="10dip" />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="Flu"
+                    android:textColor="#000000"
+                    android:gravity="left"
+                    android:padding="3dip" />
+                <TextView
+                    android:text="Temperature Sensor"
+                    android:gravity="left"
+                    android:textColor="#000000"
+                    android:paddingLeft="10dip"  />
+            </TableRow>
+
+            <TableRow>
+                <TextView
+                    android:text="Sleep Apnea"
+                    android:textColor="#000000"
+                    android:gravity="left"
+                    android:padding="3dip" />
+                <TextView
+                    android:text="ECG"
+                    android:gravity="left"
+                    android:textColor="#000000"
+                    android:paddingLeft="10dip"  />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="COPD"
+                    android:textColor="#000000"
+                    android:gravity="left"
+                    android:padding="3dip" />
+                <TextView
+                    android:text="ECG/HR and Spo2"
+                    android:gravity="left"
+                    android:textColor="#000000"
+                    android:paddingLeft="10dip"  />
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="Arrhythmia"
+                    android:textColor="#000000"
+                    android:gravity="left"
+                    android:padding="3dip" />
+                <TextView
+                    android:text="ECG"
+                    android:gravity="left"
+                    android:textColor="#000000"
+                    android:paddingLeft="10dip" />
+            </TableRow>
+        </TableLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="20dp">
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

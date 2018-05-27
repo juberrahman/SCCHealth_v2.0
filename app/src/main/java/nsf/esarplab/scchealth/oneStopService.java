@@ -106,7 +106,7 @@ public class oneStopService extends AppCompatActivity {
         layoutProfile=(LinearLayout)findViewById(R.id.layout2);
         sensorStatus=(LinearLayout) findViewById(R.id.sensorStatus);
 
-        intro=(TextView) findViewById(R.id.display_intro);
+        //intro=(TextView) findViewById(R.id.display_intro);
         sensorDisplay=(LinearLayout) findViewById(R.id.sensorDisplay);
         mDisplay=(ScrollView) findViewById(R.id.maindisp);
         collectData=(Button) findViewById(R.id.test);
@@ -348,7 +348,7 @@ public class oneStopService extends AppCompatActivity {
                                 handShake = true;
                             }else {
                                 AlertDialog alertDialog = new AlertDialog.Builder(oneStopService.this).create();
-                                alertDialog.setTitle("Failed Handshake");
+                                alertDialog.setTitle("Communication Error");
                                 alertDialog.setMessage("Restart Scanner and re-connect");
                                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                         new DialogInterface.OnClickListener() {
@@ -803,7 +803,7 @@ public class oneStopService extends AppCompatActivity {
                     progressDialog.setIndeterminate(true);
                     progressDialog.setMessage("Handshaking & Collecting data...");
 
-                    new CountDownTimer(1000, 500) {
+                    new CountDownTimer(1000, 100) {
 
                         public void onTick(long millisecondsUntilDone) {
 
@@ -822,13 +822,38 @@ public class oneStopService extends AppCompatActivity {
                                 sensorStatus.setVisibility(View.VISIBLE);
                                 //statusTemp.setBackgroundColor(Color.parseColor("#4CAF50"));
                             }else{
-                                Toast.makeText(getApplicationContext(), "Handshaking Error", Toast.LENGTH_LONG).show();
+                                AlertDialog alertDialog = new AlertDialog.Builder(oneStopService.this).create();
+                                alertDialog.setTitle("Communication Failed");
+                                alertDialog.setMessage("Restart Scanner and re-connect");
+                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                                if (bt.getServiceState() == BluetoothState.STATE_CONNECTED)
+                                                    bt.disconnect();
+                                                connectScanner.setVisibility(View.VISIBLE);
+                                                sensorDisplay.setVisibility(View.GONE);
+                                                mDisplay.setVisibility(View.GONE);
+                                                collectData.setVisibility(View.GONE);
+                                                dispResult.setVisibility(View.GONE);
+                                                shareResult.setVisibility(View.GONE);
+                                                sensorStatus.setVisibility(View.GONE);
+                                                layoutIntro.setVisibility(View.VISIBLE);
+                                                arr_received.clear();
+                                                handShake = false;
+                                                diseaseKey = false;
+                                                sensorKeyBT = false;
+                                            }
+                                        });
+                                alertDialog.show();
                             }
                             if (arr_received.size() > 100) {
                                 statusTemp.setBackgroundColor(Color.parseColor("#4CAF50"));
                                 postStatus.setText("2. Click on COMPUTE SEVERITY ");
+                                dispResult.setClickable(true);
                             } else {
                                 postStatus.setText("2. Position Sensor properly, Refresh and collect data again");
+                                dispResult.setClickable(false);
                             }
                             // after timer delay
                                 /*sensorDisplay.setVisibility(View.GONE);
@@ -1081,7 +1106,8 @@ public class oneStopService extends AppCompatActivity {
                 temperature=107;
             }*/
 
-            double temperature2= -0.4351*indexOfMinima+295.69;
+            double temperature2= -0.1478*indexOfMinima+164.7;
+            //temperature=temperature2;
             Log.i("temp", "" + temperature2);
             ratingOfEOI = (temperature - 97) / 10;
 

@@ -94,15 +94,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="60dp"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/display_intro"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:layout_marginBottom="10dp"
-            android:text="@string/intro" />
+
        <!-- <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -152,33 +146,33 @@
             android:textColor="#000000"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="10dp"
-            android:text="STEP: SETUP CONNECTION"
+            android:text="SETUP CONNECTION"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
-        <TextView
-            android:id="@+id/display_procedure"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:text="This step involves the following tasks:" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="\n* Sensor  - Position the Sensor properly.\n"
-            android:textColor="#F06292"/>
+            android:text="\n1. Sensor  - Position the Sensor properly.\n"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="#000000"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="* Scanner - Turn on the Scanner power. \n"
-            android:textColor="#BA68C8"/>
+            android:text="2. Scanner - Turn on the Scanner power. \n"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="#000000"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="* App -\n"
-            android:textColor="#FF9800"/>
+            android:text="3. App -"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="#000000"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/procedure"
+            android:paddingLeft="50dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:textColor="#000000"/>
 
     </LinearLayout>
@@ -199,12 +193,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="15dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:textAllCaps="true"
             android:textColor="#000000"
-            android:text="Step: Data Collection"
+            android:text="Data Collection"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
 
         <TextView
@@ -214,7 +208,8 @@
             android:layout_marginTop="5dp"
             android:textColor="#000000"
             android:layout_marginLeft="4dp"
-            android:text="\nSelect a sensor" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:text="\n1. Select a sensor" />
 
         <RadioGroup
             android:id="@+id/rg1"
@@ -275,7 +270,8 @@
             android:layout_marginTop="5dp"
             android:textColor="#000000"
             android:layout_marginLeft="4dp"
-            android:text="\nClick on COLLECT DATA button." />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:text="\n2. Click on COLLECT DATA." />
 
     </LinearLayout>
 
@@ -303,7 +299,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="4dp"
-                android:text="STEP: SEVERITY RATING"
+                android:text="SEVERITY COMPUTATION"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textColor="#000000" />
 
@@ -311,7 +307,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginRight="4dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:text="1. Check data collection status"
                 android:textColor="#000000" />
 
@@ -459,6 +457,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
                 android:layout_margin="5dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:text="2. Click on COMPUTE SEVERITY "/>
 
            <!-- <LinearLayout
@@ -609,7 +608,6 @@
                 android:id="@+id/summary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:gravity="center"
                 android:text="Computed Severity"
                 android:textAllCaps="true"

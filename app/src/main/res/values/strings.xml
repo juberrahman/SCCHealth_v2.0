@@ -170,12 +170,10 @@
     <string name="deleteContact">Are you sure, you want to delete it.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-
     <string name="hello_world">Hello world!</string>
-
     <string name="oneStop">One Stop Service</string>
     <string name="intro">This is a One Stop Service to monitor Flu, Sleep Apnea, Asthma and Arrhythmia. Please read info and instruction for details.</string>
-    <string name="procedure">1. Click on CONNECT SCANNER button.\n2. Click on your Scanner name.\n\n\n   </string>
+    <string name="procedure">3A. Click on CONNECT SCANNER.\n3B. Click on your Scanner name.\n\n\n   </string>
     <string name="title_activity_listener">ListenerActivity</string>
     <string name="title_activity_auto_connect">AutoConnectActivity</string>
     <string name="title_activity_device_list">Bluetooth Devices</string>
@@ -193,6 +191,14 @@
     <string name="share_with_scc">Sharing helps you to keep track of your disease chronologically and also it helps to see the spatial ditribution of the disease within the city. \n\nBy clicking on SHARE, you accept to share anonymous severity data with the Smart and Connected Community.</string>
     <string name="info_flu"><b>Flu:</b>\n\nInfluenza commonly known as "the flu", is an infectious disease caused by an influenza virus. Symptoms can be mild to severe. The most common symptoms include: a high fever, runny nose, sore throat, muscle pains, headache, coughing, and feeling tired.\n\nNormal body temperature varies by person, age, activity, and time of day. The average normal body temperature is generally accepted as 98.6°F. Some studies have shown that the normal body temperature can have a wide range, from 97°F to 99°F . A temperature over 100.4°F most often means you have a fever caused by an infection or illness.
                 \nRef: US National Library of Medicine</string>
-    <string name="info_oss"><b>Information:</b>\n\n<b>One Stop Service</b> You can test four diseases viz. Flu, Sleep Apnea, Arrythmia, and Asthma at a time. You have to collect data using the four sensors viz. Temperature, Pulse Oximetry, Heart Rate, and Respiration sensor. Please read the istruction section for detailed procedure.    </string>
-    <string name="inst_oss"><b>Instruction:</b>\n\n1. Select Temperature Sensor.\n2. Connect to Scanner.\n3. Click on Start test and collect data.\n4. Do the same for SpO2, Heart rate and respiration sensor.\n5. Click on Compute to see the result.  </string>
+    <string name="info_oss"><b>Information:</b>\n\n<b>One Stop Service</b> You can test four diseases viz. Flu, Sleep Apnea, COPD and Arrythmia at a time.
+        \n\n<b>Flu</b>\nInfluenza commonly known as "the flu", is an infectious disease caused by an influenza virus. Symptoms can be mild to severe. The most common
+        symptoms include: a high fever, runny nose, sore throat, muscle pains, headache, coughing, and feeling tired. A temperature over 100.4°F most often means you
+        have a fever caused by an infection or illness.\nRef: US National Library of Medicine
+        \n\n<b>Sleep Apnea</b>\nA sleep disorder that is marked by pauses in breathing of 10 seconds or more during sleep, and causes unrestful sleep
+        Symptoms include loud or abnormal snoring, daytime sleepiness, irritability, and depression.\nRef: US National Library of Medicine"
+        \n<b>COPD</b>\nCOPD, or chronic obstructive pulmonary disease, is a progressive disease that makes it hard to breathe. Progressive means the disease gets worse over time.COPD can cause coughing that produces large amounts of mucus (a slimy substance), wheezing, shortness of breath, chest tightness, and other symptoms.\nRef: US National Institutes of Health"
+        \n\n<b>Arrhythmia</b>\nAn arrhythmia is a disorder of the heart rate (pulse) or heart rhythm. The heart can beat too fast (tachycardia), too fast (tachycardia), too slow (bradycardia), or irregularly.An arrhythmia can be harmless, a sign of other heart problems, or an immediate danger to your health.\nRef: US National Library of Medicine"
+    </string>
+    <string name="inst_oss">\n2. Turn on <b>Scanner</b> and place the Scanner above the sensor properly.\n3. Connect the Smartphone app with the scanner and collect data.\n4. Click Refresh button and collect data for Temperature,SpO2, ECG/Heart rate and respiration sensor one by one.\n5. Click on Compute to see the result.\n6. If a sensor is not available just skip that disease.</string>
 </resources>

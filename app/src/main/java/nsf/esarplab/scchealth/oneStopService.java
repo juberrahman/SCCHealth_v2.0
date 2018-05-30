@@ -88,6 +88,7 @@ public class oneStopService extends AppCompatActivity {
     private double temperature=0.0f;
     private ProgressDialog progressDialog;
     private CountDownTimer Count;
+    private boolean failedHandshake;
 
 
     @Override
@@ -346,19 +347,41 @@ public class oneStopService extends AppCompatActivity {
                             }else if (readAscii.equals("8") && sensorKeyEC && diseaseKey) {
                                 bt.send("OK", true);
                                 handShake = true;
-                            }else {
-                                AlertDialog alertDialog = new AlertDialog.Builder(oneStopService.this).create();
-                                alertDialog.setTitle("Communication Error");
-                                alertDialog.setMessage("Restart Scanner and re-connect");
-                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        });
-                                alertDialog.show();
-                                //progressDialog.dismiss();
-                                //Count.cancel();
+                            }else {AlertDialog.Builder builder = new AlertDialog.Builder(oneStopService.this);
+                                builder.setTitle("Communication Error");
+                                builder.setMessage("Restart Scanner and re-connect");
+
+                                // add the buttons
+                                builder.setPositiveButton("Reconnect", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // do something ...
+                                        dialog.dismiss();
+                                        if (bt.getServiceState() == BluetoothState.STATE_CONNECTED)
+                                            bt.disconnect();
+                                        connectScanner.setVisibility(View.VISIBLE);
+                                        sensorDisplay.setVisibility(View.GONE);
+                                        mDisplay.setVisibility(View.GONE);
+                                        collectData.setVisibility(View.GONE);
+                                        dispResult.setVisibility(View.GONE);
+                                        shareResult.setVisibility(View.GONE);
+                                        sensorStatus.setVisibility(View.GONE);
+                                        layoutIntro.setVisibility(View.VISIBLE);
+                                        arr_received.clear();
+                                        handShake = false;
+                                        diseaseKey = false;
+                                        sensorKeyBT = false;
+                                        Count.cancel();
+                                        progressDialog.dismiss();
+                                        failedHandshake=true;
+
+                                    }
+                                });
+                                builder.setNegativeButton("Cancel", null);
+
+                                // create and show the alert dialog
+                                AlertDialog dialog = builder.create();
+                                dialog.show();
 
                             }
                         }
@@ -379,19 +402,27 @@ public class oneStopService extends AppCompatActivity {
             public void onDeviceConnectionFailed() {
                 connectionRead.setText("Status : Connection failed");
                 connectionRead.setBackgroundColor(Color.parseColor("#D3D3D3"));
-                AlertDialog alertDialog = new AlertDialog.Builder(oneStopService.this).create();
-                alertDialog.setTitle("Connection Error");
-                //alertDialog.setMessage("Retry to connect");
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Retry",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                bt.setDeviceTarget(BluetoothState.DEVICE_OTHER);
-                                Intent intent = new Intent(getApplicationContext(), DeviceList.class);
-                                startActivityForResult(intent, BluetoothState.REQUEST_CONNECT_DEVICE);
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(oneStopService.this);
+                builder.setTitle("Connection Error");
+                builder.setMessage("Retry to connect");
+
+                // add the buttons
+                builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do something ...
+                        bt.setDeviceTarget(BluetoothState.DEVICE_OTHER);
+                        Intent intent = new Intent(getApplicationContext(), DeviceList.class);
+                        startActivityForResult(intent, BluetoothState.REQUEST_CONNECT_DEVICE);
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("Cancel", null);
+
+                // create and show the alert dialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
 
             public void onDeviceConnected(String name, String address) {
@@ -821,31 +852,41 @@ public class oneStopService extends AppCompatActivity {
                                 dispResult.setVisibility(View.VISIBLE);
                                 sensorStatus.setVisibility(View.VISIBLE);
                                 //statusTemp.setBackgroundColor(Color.parseColor("#4CAF50"));
+                            }else if(failedHandshake){
+                                // do nothing
                             }else{
-                                AlertDialog alertDialog = new AlertDialog.Builder(oneStopService.this).create();
-                                alertDialog.setTitle("Communication Failed");
-                                alertDialog.setMessage("Restart Scanner and re-connect");
-                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                                if (bt.getServiceState() == BluetoothState.STATE_CONNECTED)
-                                                    bt.disconnect();
-                                                connectScanner.setVisibility(View.VISIBLE);
-                                                sensorDisplay.setVisibility(View.GONE);
-                                                mDisplay.setVisibility(View.GONE);
-                                                collectData.setVisibility(View.GONE);
-                                                dispResult.setVisibility(View.GONE);
-                                                shareResult.setVisibility(View.GONE);
-                                                sensorStatus.setVisibility(View.GONE);
-                                                layoutIntro.setVisibility(View.VISIBLE);
-                                                arr_received.clear();
-                                                handShake = false;
-                                                diseaseKey = false;
-                                                sensorKeyBT = false;
-                                            }
-                                        });
-                                alertDialog.show();
+                                AlertDialog.Builder builder = new AlertDialog.Builder(oneStopService.this);
+                                builder.setTitle("No Communication");
+                                builder.setMessage("Restart Scanner and re-connect");
+
+                                // add the buttons
+                                builder.setPositiveButton("Reconnect", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // do something ...
+                                        dialog.dismiss();
+                                        if (bt.getServiceState() == BluetoothState.STATE_CONNECTED)
+                                            bt.disconnect();
+                                        connectScanner.setVisibility(View.VISIBLE);
+                                        sensorDisplay.setVisibility(View.GONE);
+                                        mDisplay.setVisibility(View.GONE);
+                                        collectData.setVisibility(View.GONE);
+                                        dispResult.setVisibility(View.GONE);
+                                        shareResult.setVisibility(View.GONE);
+                                        sensorStatus.setVisibility(View.GONE);
+                                        layoutIntro.setVisibility(View.VISIBLE);
+                                        arr_received.clear();
+                                        handShake = false;
+                                        diseaseKey = false;
+                                        sensorKeyBT = false;
+
+                                    }
+                                });
+                                builder.setNegativeButton("Cancel", null);
+
+                                // create and show the alert dialog
+                                AlertDialog dialog = builder.create();
+                                dialog.show();
                             }
                             if (arr_received.size() > 100) {
                                 statusTemp.setBackgroundColor(Color.parseColor("#4CAF50"));

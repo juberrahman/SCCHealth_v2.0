@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -19,11 +20,26 @@ public class ProfileActivity extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "MESSAGE";
     private ListView obj;
     ProfileDbHelper mydb;
+    private Button userLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        userLogin=(Button)findViewById(R.id.userLogin);
+        userLogin.setOnClickListener(new View.OnClickListener() {
+            // The code in this method will be executed when the profile category is clicked on.
+            @Override
+            public void onClick(View view) {
+                // Create a new intent to open the {@link ProfileActivity}
+                Intent profileIntent = new Intent(ProfileActivity.this, LoginActivity.class);
+
+                // Start the new activity
+                startActivity(profileIntent);
+
+            }
+        });
 
         mydb = new ProfileDbHelper(this);
         ArrayList array_list = mydb.getAllCotacts();

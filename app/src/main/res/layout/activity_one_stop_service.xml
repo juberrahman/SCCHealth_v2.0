@@ -164,7 +164,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="3. App -"
+            android:text="3. Smartphone App -"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:textColor="#000000"/>
         <TextView
@@ -232,7 +232,7 @@
                 android:id="@+id/rb_resp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="#228B22"
+                android:buttonTint="#D3D3D3"
                 android:textColor="#D3D3D3"
                 android:clickable="false"
                 android:text="Respiration" />
@@ -258,7 +258,7 @@
                 android:id="@+id/rb_ecg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="#228B22"
+                android:buttonTint="#D3D3D3"
                 android:textColor="#D3D3D3"
                 android:clickable="false"
                 android:text="ECG/HR" />
@@ -307,7 +307,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="4dp"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:text="1. Check data collection status"
@@ -404,8 +404,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -417,7 +417,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textColor="#000000"
-                android:text="OK"/>
+                android:text="Data Collected"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -429,7 +429,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textColor="#000000"
-                android:text="Not OK"/>
+                android:text="Not Collected"/>
 
 
         </LinearLayout>
@@ -738,7 +738,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:scaleType="fitStart"
+                                android:scaleType="fitCenter"
                                 android:src="@drawable/sline"
                                 android:visibility="invisible" />
 
@@ -747,7 +747,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:scaleType="fitStart"
+                                android:scaleType="fitCenter"
                                 android:src="@drawable/sline"
                                 android:visibility="invisible" />
 
@@ -756,7 +756,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:scaleType="fitStart"
+                                android:scaleType="fitCenter"
                                 android:src="@drawable/sline"
                                 android:visibility="invisible" />
 
@@ -774,7 +774,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:scaleType="fitStart"
+                                android:scaleType="fitCenter"
                                 android:src="@drawable/sline"
                                 android:visibility="invisible"/>
 
@@ -783,7 +783,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:scaleType="fitStart"
+                                android:scaleType="fitCenter"
                                 android:src="@drawable/sline"
                                 android:visibility="invisible" />
 
@@ -801,7 +801,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:scaleType="fitStart"
+                                android:scaleType="fitCenter"
                                 android:src="@drawable/sline"
                                 android:visibility="invisible" />
 
@@ -810,7 +810,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:scaleType="fitStart"
+                                android:scaleType="fitCenter"
                                 android:src="@drawable/sline"
                                 android:visibility="invisible" />
 
@@ -819,7 +819,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:scaleType="fitStart"
+                                android:scaleType="fitCenter"
                                 android:src="@drawable/sline"
                                 android:visibility="invisible" />
 
@@ -828,7 +828,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:scaleType="fitStart"
+                                android:scaleType="fitCenter"
                                 android:src="@drawable/sline"
                                 android:visibility="invisible" />
 

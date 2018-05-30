@@ -69,7 +69,7 @@ public class GeneralSettingsActivity extends AppCompatActivity {
             }
         });
 
-        // Find the View that shows the profile category
+        /*// Find the View that shows the profile category
         TextView newuser = (TextView) findViewById(R.id.useraccount);
 
         // Set a click listener on that View
@@ -84,7 +84,7 @@ public class GeneralSettingsActivity extends AppCompatActivity {
                 startActivity(newuserIntent);
 
             }
-        });
+        });*/
 
         // Find the View that shows the permission category
         TextView permission = (TextView) findViewById(R.id.permission);

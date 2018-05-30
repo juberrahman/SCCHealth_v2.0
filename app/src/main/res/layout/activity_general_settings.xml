@@ -11,7 +11,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@drawable/round_corner"
     android:orientation="vertical"
-    tools:context="app.esarp.SCC_Health.GeneralSettingsActivity">
+    tools:context="nsf.esarplab.scchealth.GeneralSettingsActivity">
 
     <TextView
         android:id="@+id/permission"
@@ -32,14 +32,14 @@
         android:textAlignment="center"
         android:background="@drawable/button"
         android:text="@string/category_profile" />
-    <TextView
+   <!-- <TextView
         android:id="@+id/useraccount"
         style="@style/CategoryStyle"
         android:layout_margin="16dp"
         android:layout_height="70dp"
         android:textAlignment="center"
         android:background="@drawable/button"
-        android:text=" Create User Password" />
+        android:text=" Create User Password" />-->
 
     <TextView
         android:id="@+id/bluetooth"

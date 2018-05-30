@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,13 +28,19 @@ public class DisplayContact extends AppCompatActivity {
 
     int from_Where_I_Am_Coming = 0;
     private ProfileDbHelper mydb ;
+    EditText editTextUserName,editTextPassword,editTextConfirmPassword;
+    Button btnCreateAccount;
+    private ProfileDbHelper profileDB ;
+    private Cursor c;
+    private boolean valid;
 
+    LoginDataBaseAdapter loginDataBaseAdapter;
     TextView name ;
 
     TextView email;
     TextView street;
     TextView place;
-    TextView phone;
+    TextView pID;
     int id_To_Update = 0;
     static final int READ_BLOCK_SIZE = 100;
 
@@ -51,9 +58,18 @@ public class DisplayContact extends AppCompatActivity {
         street = (TextView) findViewById(R.id.editTextStreet);
         email = (TextView) findViewById(R.id.editTextEmail);
         place = (TextView) findViewById(R.id.editTextCity);
-        phone = (TextView) findViewById(R.id.editTextPhone);
+        pID = (TextView) findViewById(R.id.editTextPID);
 
-// display contact
+        // get Instance  of Database Adapter
+        loginDataBaseAdapter=new LoginDataBaseAdapter(this);
+        loginDataBaseAdapter=loginDataBaseAdapter.open();
+
+        // Get References of Views
+        editTextUserName = (EditText) findViewById(R.id.editTextName);
+        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+        //editTextConfirmPassword = (EditText) findViewById(R.id.editTextConfirmPassword);
+
+        // display contact
 
         mydb = new ProfileDbHelper(this);
 
@@ -100,9 +116,9 @@ public class DisplayContact extends AppCompatActivity {
                 place.setFocusable(false);
                 place.setClickable(false);
 
-                phone.setText((CharSequence)phon);
-                phone.setFocusable(false);
-                phone.setClickable(false);
+                pID.setText((CharSequence)phon);
+                pID.setFocusable(false);
+                pID.setClickable(false);
             }
         }
 
@@ -174,9 +190,9 @@ public class DisplayContact extends AppCompatActivity {
                 place.setFocusableInTouchMode(true);
                 place.setClickable(true);
 
-                phone.setEnabled(true);
-                phone.setFocusableInTouchMode(true);
-                phone.setClickable(true);
+                pID.setEnabled(true);
+                pID.setFocusableInTouchMode(true);
+                pID.setClickable(true);
 
                 return true;
             case R.id.Delete_Contact:
@@ -223,7 +239,7 @@ public class DisplayContact extends AppCompatActivity {
         }
 
         // check information validity
-        if((name.getText().toString().trim().length() == 0)||(phone.getText().toString().trim().length() == 0)||(street.getText().toString().trim().length() == 0))
+        if((name.getText().toString().trim().length() == 0)||(pID.getText().toString().trim().length() == 0)||(street.getText().toString().trim().length() == 0))
         {
             Toast.makeText(getApplicationContext(), "* Fields Can't be empty", Toast.LENGTH_SHORT).show();
         }
@@ -239,7 +255,7 @@ public class DisplayContact extends AppCompatActivity {
                 int Value = extras.getInt("id");
                 if (Value > 0) {
                     if (mydb.updateContact(id_To_Update, name.getText().toString(),
-                            phone.getText().toString(), email.getText().toString(),
+                            pID.getText().toString(), email.getText().toString(),
                             street.getText().toString(), place.getText().toString())) {
                         Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
@@ -248,11 +264,14 @@ public class DisplayContact extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "not Updated", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    if (mydb.insertContact(name.getText().toString(), phone.getText().toString(),
+                    if (mydb.insertContact(name.getText().toString(), pID.getText().toString(),
                             email.getText().toString(), street.getText().toString(),
                             place.getText().toString())) {
-                        Toast.makeText(getApplicationContext(), "done",
-                                Toast.LENGTH_SHORT).show();
+                        String userName=editTextUserName.getText().toString().trim();
+                        String password=editTextPassword.getText().toString().trim();
+                        loginDataBaseAdapter.deleteEntry(userName);
+                        loginDataBaseAdapter.insertEntry(userName, password);
+                        Toast.makeText(getApplicationContext(), "Account Successfully Created ", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getApplicationContext(), "not done",
                                 Toast.LENGTH_SHORT).show();

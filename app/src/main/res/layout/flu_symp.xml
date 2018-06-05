@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup_element"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="1dp"
+            android:background="@drawable/back">
+            <TextView
+                android:id="@+id/heading"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textColor="#000000"
+                android:text="Check all symptoms that you have right now" />
+
+            <CheckBox
+                android:id="@+id/checkBox1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:buttonTint="#000000"
+                android:text="Sore Throat"
+                android:textColor="#000000"
+                android:checked="false" />
+
+            <CheckBox
+                android:id="@+id/checkBox2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:buttonTint="#000000"
+                android:text="Sneezing "
+                android:textColor="#000000"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkBox3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:buttonTint="#000000"
+                android:text="Muscle aches and pains "
+                android:textColor="#000000"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkBox4"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:buttonTint="#000000"
+                android:text="Nasal Congestion "
+                android:textColor="#000000"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkBox5"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:buttonTint="#000000"
+                android:text="Cough"
+                android:textColor="#000000"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkBox6"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:buttonTint="#000000"
+                android:text="Headache"
+                android:textColor="#000000"
+                android:checked="false" />
+            <CheckBox
+                android:id="@+id/checkBox7"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:buttonTint="#000000"
+                android:text="Chilliness and fever"
+                android:textColor="#000000"
+                android:checked="false" />
+
+            <Button
+                android:id="@+id/dismiss"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit" />
+        </LinearLayout>
+
+</LinearLayout>

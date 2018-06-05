@@ -712,6 +712,7 @@ public class oneStopService extends AppCompatActivity {
             sensorStatus.setVisibility(View.GONE);
             layoutIntro.setVisibility(View.VISIBLE);
             arr_received.clear();
+            arr_hex.clear();
             handShake = false;
             diseaseKey = false;
             sensorKeyBT = false;
@@ -893,6 +894,7 @@ public class oneStopService extends AppCompatActivity {
                                 postStatus.setText("2. Click on COMPUTE SEVERITY ");
                                 dispResult.setClickable(true);
                             } else {
+                                statusTemp.setBackgroundColor(Color.parseColor("#000000"));
                                 postStatus.setText("2. Position Sensor properly, Refresh and collect data again");
                                 dispResult.setClickable(false);
                             }
@@ -936,6 +938,7 @@ public class oneStopService extends AppCompatActivity {
 
 
         dispResult.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 {
 
@@ -1050,6 +1053,7 @@ public class oneStopService extends AppCompatActivity {
         float resultVoltage=0.0f;
         double ratingOfEOI=0.0f;
 
+
         // make main display visible and hide arrows
         mDisplay.setVisibility(View.VISIBLE);
         ImageView arrow1=(ImageView) findViewById(R.id.arrow1);
@@ -1097,26 +1101,40 @@ public class oneStopService extends AppCompatActivity {
 
             // temperature processing begin
 
-           /* for (int i = 0; i < arr_received.size(); i++) {
+           for (int i = 0; i < arr_received.size(); i++) {
                 if ((arr_received.get(i)>0)&&(arr_received.get(i)<9000)) {
                     arr_trans.add(arr_received.get(i));
 
                     Log.i("transferrred", "" + arr_received.get(i));
 
                 }
-            }*/
-// find minima index
+            }
 
-            for (int i = 99; i < arr_received.size(); i++) {
+
+           // Implement the filter
+           /* value=arr_trans.get(0);
+            for (int i=0;i<arr_trans.size();i++)
+            {
+                currentValue=arr_trans.get(i);
+                value=value+(currentValue - value)/smoothing;
+                arr_trans.add(i,value);
+            }*/
+
+           // transfer to arr_transfer
+
+          /* for (int i = 99; i < arr_received.size(); i++) {
 
                 arr_trans.add(arr_received.get(i));
 
                 Log.i("transferrred", "" + arr_received.get(i));
 
-            }
+            }*/
 
+          // *****Feature 1 **********
 
-            int min =arr_trans.get(0);
+            // step-1-find minima
+
+           int min =arr_trans.get(0);
             for (int i=0;i<arr_trans.size(); i++){
                 if(arr_trans.get(i)< min){
                     min = arr_trans.get(i);
@@ -1124,7 +1142,7 @@ public class oneStopService extends AppCompatActivity {
             }
             //System.out.println(min);
 
-            // Finding the index of minima
+            // step-2-find minima index
 
             int indexOfMinima=0;
 
@@ -1136,17 +1154,74 @@ public class oneStopService extends AppCompatActivity {
                     break;
                 }
             }
-// end of finding minima index
-            Log.i("Delay", "" + indexOfMinima);
-            // equation for temperature
-            //temperature= 120-(0.2898*(indexOfMinima));
-            temperature= 134.44-(0.0773*(indexOfMinima));
-           /* if(temperature<74){
-                temperature=74;
-            }else if(temperature>107){
-                temperature=107;
-            }*/
 
+
+            // step-3-find minima level
+
+            float sumMinima=0;
+            for (int k=indexOfMinima; k<indexOfMinima+100; k++)
+
+            {
+                sumMinima+=arr_trans.get(k);
+            }
+            float avgMinima=sumMinima/100;
+            Log.i("feature1", "" + avgMinima);
+
+
+            // *****Feature 2 **********
+            // step-1-find maxima
+
+            int max =arr_trans.get(0);
+            for (int l=0;l<arr_trans.size(); l++){
+                if(arr_trans.get(l)> max){
+                    max = arr_trans.get(l);
+                }
+            }
+
+            // step-2-find maxima index
+
+            int indexOfMaxima=0;
+
+            for (int m=0; m<arr_trans.size(); m++)
+
+            {
+                if (max==arr_trans.get(m)){
+                    indexOfMaxima=m;
+                    break;
+                }
+            }
+
+            // step-3-find maxima level
+
+            float sumMaxima=0;
+            for (int n=indexOfMinima-15; n<indexOfMaxima+15; n++)
+
+            {
+                sumMaxima+=arr_trans.get(n);
+            }
+            float avgMaxima=sumMaxima/20;
+            Log.i("feature2", "" + avgMaxima);
+
+
+           // ****feature 3*******
+
+            // step-1-find index of delay
+
+            int indexOfDelay=0;
+
+            for (int p=0; p<arr_trans.size(); p++)
+
+            {
+                if (((arr_trans.get(p))-2500)<5){
+                    indexOfDelay=p;
+                    break;
+                }
+            }
+            Log.i("feature3", "" + indexOfDelay);
+
+            // Multivariate regression
+
+            temperature= 134.44-(0.0773*(indexOfMinima));
             double temperature2= -0.1478*indexOfMinima+164.7;
             //temperature=temperature2;
             Log.i("temp", "" + temperature2);

@@ -99,6 +99,7 @@ public class FluActivity extends AppCompatActivity {
     private List<GraphViewData> seriesX;
     int dataCount = 1;
 
+
     //temp db finish
 
     @Override
@@ -429,16 +430,26 @@ public class FluActivity extends AppCompatActivity {
 
             public void onDeviceConnectionFailed() {
                 connectionRead.setText("Status : Connection failed");
-                AlertDialog alertDialog = new AlertDialog.Builder(FluActivity.this).create();
-                //alertDialog.setTitle("Instruction");
-                alertDialog.setMessage("Connection Error, Retry");
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(FluActivity.this);
+                builder.setTitle("Connection Error");
+                builder.setMessage("Retry to connect");
+
+                // add the buttons
+                builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do something ...
+                        bt.setDeviceTarget(BluetoothState.DEVICE_OTHER);
+                        Intent intent = new Intent(getApplicationContext(), DeviceList.class);
+                        startActivityForResult(intent, BluetoothState.REQUEST_CONNECT_DEVICE);
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("Cancel", null);
+
+                // create and show the alert dialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
 
             public void onDeviceConnected(String name, String address) {
@@ -711,17 +722,17 @@ public class FluActivity extends AppCompatActivity {
 
         // make main display visible and hide arrows
         mDisplay.setVisibility(View.VISIBLE);
-//        arrow1.setVisibility(View.INVISIBLE);
-//        arrow2.setVisibility(View.INVISIBLE);
-//        arrow3.setVisibility(View.INVISIBLE);
-//        arrow4.setVisibility(View.INVISIBLE);
-//        arrow5.setVisibility(View.INVISIBLE);
-//        arrow6.setVisibility(View.INVISIBLE);
-//        arrow7.setVisibility(View.INVISIBLE);
-//        arrow8.setVisibility(View.INVISIBLE);
-//        arrow9.setVisibility(View.INVISIBLE);
-//        arrow10.setVisibility(View.INVISIBLE);
-//        arrow11.setVisibility(View.INVISIBLE);
+        arrow1.setVisibility(View.INVISIBLE);
+        arrow2.setVisibility(View.INVISIBLE);
+        arrow3.setVisibility(View.INVISIBLE);
+        arrow4.setVisibility(View.INVISIBLE);
+        arrow5.setVisibility(View.INVISIBLE);
+        arrow6.setVisibility(View.INVISIBLE);
+        arrow7.setVisibility(View.INVISIBLE);
+        arrow8.setVisibility(View.INVISIBLE);
+        arrow9.setVisibility(View.INVISIBLE);
+        arrow10.setVisibility(View.INVISIBLE);
+        arrow11.setVisibility(View.INVISIBLE);
 
         // display when there is no data
         if (arr_received.size() == 0) {
@@ -749,82 +760,136 @@ public class FluActivity extends AppCompatActivity {
 
                 }
             }*/
-// find minima index
 
-            for (int i = 99; i < arr_received.size(); i++) {
 
-                arr_trans.add(arr_received.get(i));
-
-                Log.i("transferrred", "" + arr_received.get(i));
-
+            short value=arr_received.get(0);
+            for (int i=0;i<arr_received.size();i++)
+            {
+                short currentValue=arr_received.get(i);
+                value+=((currentValue - value)/10);
+                arr_processed1.add(i,value);
+                try {
+                    writeToCsv(Integer.toString(value));
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
 
+            // *****Feature 1 **********
 
-            int min =arr_trans.get(0);
-            for (int i=0;i<arr_trans.size(); i++){
-                if(arr_trans.get(i)< min){
-                    min = arr_trans.get(i);
+            // step-1-find minima
+
+            int min =arr_processed1.get(0);
+            for (int i=0;i<arr_processed1.size(); i++){
+                if(arr_processed1.get(i)< min){
+                    min = arr_processed1.get(i);
                 }
             }
             //System.out.println(min);
 
-            // Finding the index of minima
+            // step-2-find minima index
 
             int indexOfMinima=0;
 
-            for (int j=0; j<arr_trans.size(); j++)
+            for (int j=0; j<arr_processed1.size(); j++)
 
             {
-                if (min==arr_trans.get(j)){
+                if (min==arr_processed1.get(j)){
                     indexOfMinima=j;
                     break;
                 }
             }
-// end of finding minima index
-            Log.i("Delay", "" + indexOfMinima);
-            // equation for temperature
-            temperature= 134.44-(0.0773*(indexOfMinima));
+            Log.i("feature11", "" + min);
 
-            double temp2=0.0004*indexOfMinima*indexOfMinima-0.4408*indexOfMinima+211.08;
-            Log.i("temp", "" + temp2);
-            Log.i("sizer", "" + arr_received.size());
-            Log.i("sizet", "" + arr_trans.size());
-            for (int j = 0; j < arr_trans.size(); j++) {
-                sum += arr_trans.get(j);
+            // step-3-find minima level
+
+            float sumMinima=0;
+            for (int k=indexOfMinima; k<indexOfMinima+10; k++)
+
+            {
+                sumMinima+=arr_processed1.get(k);
             }
-            avgValue = sum / arr_trans.size();
+            float avgMinima=sumMinima/10;
+            Log.i("feature12", "" + avgMinima);
 
-            Log.i("Avg", "" + avgValue);
 
-            for (int k = 0; k < arr_trans.size(); k++) {
-                if (arr_trans.get(k) >= avgValue) {
-                    arr_processed1.add(arr_trans.get(k));
+            // *****Feature 2 **********
+            // step-1-find maxima
 
-                } else {
-                    arr_processed2.add(arr_trans.get(k));
+            int max =arr_processed1.get(0);
+            for (int l=0;l<arr_processed1.size(); l++){
+                if(arr_processed1.get(l)> max){
+                    max = arr_processed1.get(l);
+                }
+            }
+            Log.i("feature21", "" + max);
+            // step-2-find maxima index
+
+            int indexOfMaxima=0;
+
+            for (int m=0; m<arr_processed1.size(); m++)
+
+            {
+                if (max==arr_processed1.get(m)){
+                    indexOfMaxima=m;
+                    break;
                 }
             }
 
-            Log.i("size1", "" + arr_processed1.size());
-            Log.i("size2", "" + arr_processed2.size());
-            for (int j = 0; j < arr_processed1.size(); j++) {
-                sum1 += arr_processed1.get(j);
+            // step-3-find maxima level
+
+            float sumMaxima=0;
+            for (int n=indexOfMaxima-10; n<indexOfMaxima+10; n++)
+
+            {
+                sumMaxima+=arr_processed1.get(n);
             }
-            avgValue1 = sum1 / arr_processed1.size();
+            float avgMaxima=sumMaxima/20;
+            Log.i("feature22", "" + avgMaxima);
 
-            for (int j = 0; j < arr_processed2.size(); j++) {
-                sum2 += arr_processed2.get(j);
+
+            // ****feature 3*******
+
+            // step-1-find index of delay
+
+            for (int q = 99; q < arr_processed1.size(); q++) {
+
+                arr_trans.add(arr_processed1.get(q));
+
             }
-            avgValue2 = sum2 / arr_processed2.size();
 
-            resultVoltage = avgValue1 - avgValue2;
-            Log.i("Result", "" + resultVoltage);
+            // step-2-find index of delay
+            int indexOfDelay=0;
 
-            //temperature=(resultVoltage/1000)*105;
+            for (int p=0; p<arr_trans.size(); p++)
 
-            //String sSeverity="";
-            //String result = dexcallFluSeverity(new Integer(100));
-            //String result = dexcallFluSeverity(new Integer(Math.round(resultVoltage)));
+            {
+                if (((arr_trans.get(p))-2450)<5){
+                    indexOfDelay=p;
+                    break;
+                }
+            }
+            Log.i("feature3", "" + indexOfDelay);
+
+            // ******Feature 4 ***********
+
+            for (int s = 0; s < arr_trans.size(); s++) {
+                sum += arr_trans.get(s);
+            }
+            avgValue = sum / arr_trans.size();
+
+            Log.i("feature4", "" + avgValue);
+
+            // ********** Multivariate regression *************************
+            // equation for temperature
+            temperature= 228.6-0.04243*avgMaxima-0.21267*indexOfDelay;
+
+            double temp2=230.0-0.00142*avgMinima-0.04203*avgMaxima-0.21037*indexOfDelay;
+            Log.i("temp", "" + temp2);
+            Log.i("sizer", "" + arr_received.size());
+            Log.i("sizet", "" + arr_trans.size());
+            Log.i("sizep", "" + arr_processed1.size());
 
 
             try {
@@ -964,4 +1029,5 @@ public class FluActivity extends AppCompatActivity {
 
         return null;
     }
+
 }

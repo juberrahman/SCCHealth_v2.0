@@ -39,6 +39,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -74,13 +75,16 @@ public class oneStopService extends AppCompatActivity {
     private int sensor = 1;
     private int fileSeq=1;
     private int sensorNo;
-    private String eoiValue;
+    private String eoiValue,sSeverity;
+    double ratingOfEOI = 0.0;
     private  RadioGroup radioGroup;
+    private String sEOI="";
+    private String sTemperature="";
     private RadioButton rb1, rb2, rb3, rb4, rb5;
     Menu menu;
     private ArrayList<String> arr_hex = new ArrayList<String>();
-    private ArrayList<Integer> arr_received = new ArrayList<Integer>();
-    private ArrayList<Integer> arr_respiration = new ArrayList<Integer>();
+    private ArrayList<Short> arr_received = new ArrayList<Short>();
+    private ArrayList<Short> arr_respiration = new ArrayList<Short>();
     private String currentDateTime = "";
     String s = "";
     private PopupWindow mPopupWindow;
@@ -213,7 +217,7 @@ public class oneStopService extends AppCompatActivity {
 
         bt.setOnDataReceivedListener(new BluetoothSPP.OnDataReceivedListener() {
             public void onDataReceived(byte[] data, String message) {
-                int val = 0;
+                short val = 0;
                 String readAscii = new String(data);
                 //textReceived.append(message + "\n");
                 if (handShake) {
@@ -232,12 +236,15 @@ public class oneStopService extends AppCompatActivity {
                         //val = (short) (Integer.parseInt(catHex, 16));
                         //Log.i("val2@final", String.valueOf(val));
 
-                        val= (int) Long.parseLong(catHex, 16);
+                        //val= (short) Long.parseLong(catHex, 16);
+                        val = (short) (Integer.parseInt(catHex, 16));
+
+                        //val= (int) Long.parseLong(catHex, 16);
                         Log.i("val3@final", String.valueOf(val));
 
 
 
-                        //arr_received.add(val);
+                        arr_received.add(val);
                         //Textv.append(Integer.toString(val) + "\n");
                         try {
                             writeToCsv(Integer.toString(val));
@@ -252,7 +259,7 @@ public class oneStopService extends AppCompatActivity {
 
 
 
-                    switch (sensor) {
+                    /*switch (sensor) {
                         case 1: {
 
                             arr_received.add(val);
@@ -282,7 +289,7 @@ public class oneStopService extends AppCompatActivity {
                         }
 
 
-                    }
+                    }*/
 
                 } else {
                     if (readAscii.equals("OS")) {
@@ -835,7 +842,7 @@ public class oneStopService extends AppCompatActivity {
                     progressDialog.setIndeterminate(true);
                     progressDialog.setMessage("Handshaking & Collecting data...");
 
-                    new CountDownTimer(1000, 100) {
+                    new CountDownTimer(1200, 100) {
 
                         public void onTick(long millisecondsUntilDone) {
 
@@ -1041,9 +1048,9 @@ public class oneStopService extends AppCompatActivity {
         // do the severity ranking here
         TextView Textv=(TextView) findViewById(R.id.value_flu);
         TextView severityView=(TextView) findViewById(R.id.value_severity_flu);
-        ArrayList<Integer> arr_trans = new ArrayList<Integer>();
-        ArrayList<Integer> arr_processed1 = new ArrayList<Integer>();
-        ArrayList<Integer> arr_processed2 = new ArrayList<Integer>();
+        ArrayList<Short> arr_trans = new ArrayList<Short>();
+        ArrayList<Short> arr_processed1 = new ArrayList<Short>();
+        ArrayList<Short> arr_processed2 = new ArrayList<Short>();
         float sum = 0.0f;
         float sum1 = 0.0f;
         float sum2 = 0.0f;
@@ -1051,7 +1058,8 @@ public class oneStopService extends AppCompatActivity {
         float avgValue1 = 0.0f;
         float avgValue2 = 0.0f;
         float resultVoltage=0.0f;
-        double ratingOfEOI=0.0f;
+        double temperature=0.0f;
+
 
 
         // make main display visible and hide arrows
@@ -1068,9 +1076,7 @@ public class oneStopService extends AppCompatActivity {
         ImageView arrow10=(ImageView) findViewById(R.id.arrow10);
         ImageView arrow11=(ImageView) findViewById(R.id.arrow11);
 
-
-
-
+        // hide arrows
         arrow1.setVisibility(View.INVISIBLE);
         arrow2.setVisibility(View.INVISIBLE);
         arrow3.setVisibility(View.INVISIBLE);
@@ -1101,46 +1107,101 @@ public class oneStopService extends AppCompatActivity {
 
             // temperature processing begin
 
-           for (int i = 0; i < arr_received.size(); i++) {
+           /* for (int i = 0; i < arr_received.size(); i++) {
                 if ((arr_received.get(i)>0)&&(arr_received.get(i)<9000)) {
                     arr_trans.add(arr_received.get(i));
 
                     Log.i("transferrred", "" + arr_received.get(i));
 
                 }
+            }*/
+
+
+           short value=arr_received.get(0);
+            for (int i=0;i<arr_received.size();i++)
+            {
+                short currentValue=arr_received.get(i);
+                value+=((currentValue - value)/10);
+                arr_processed1.add(i,value);
+                try {
+                    writeToCsv(Integer.toString(value));
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
 
 
-           // Implement the filter
-           /* value=arr_trans.get(0);
-            for (int i=0;i<arr_trans.size();i++)
+
+            // *****Feature 2 **********************************************************************
+            // step-1-find maxima
+
+            int max =arr_processed1.get(0);
+            for (int l=0;l<arr_processed1.size(); l++){
+                if(arr_processed1.get(l)> max){
+                    max = arr_processed1.get(l);
+                }
+            }
+            Log.i("feature21", "" + max);
+            // step-2-find maxima index
+
+            int indexOfMaxima=0;
+
+            for (int m=0; m<arr_processed1.size(); m++)
+
             {
-                currentValue=arr_trans.get(i);
-                value=value+(currentValue - value)/smoothing;
-                arr_trans.add(i,value);
-            }*/
+                if (max==arr_processed1.get(m)){
+                    indexOfMaxima=m;
+                    break;
+                }
+            }
 
-           // transfer to arr_transfer
+            // step-3-find maxima level
 
-          /* for (int i = 99; i < arr_received.size(); i++) {
+            float sumMaxima=0;
+            for (int n=indexOfMaxima-10; n<indexOfMaxima+10; n++)
 
-                arr_trans.add(arr_received.get(i));
+            {
+                sumMaxima+=arr_processed1.get(n);
+            }
+            float avgMaxima=sumMaxima/20;
+            Log.i("feature22", "" + avgMaxima);
 
-                Log.i("transferrred", "" + arr_received.get(i));
 
-            }*/
+            // ****feature 3************************************************************************
 
-          // *****Feature 1 **********
+            // step-1-transfer to new array
+
+            for (int q = 99; q < arr_processed1.size(); q++) {
+
+                arr_trans.add(arr_processed1.get(q));
+
+            }
+
+            // step-2-find index of delay
+            int indexOfDelay=0;
+
+            for (int p=0; p<arr_trans.size(); p++)
+
+            {
+                if (((arr_trans.get(p))-2450)<5){
+                    indexOfDelay=p;
+                    break;
+                }
+            }
+            Log.i("feature3", "" + indexOfDelay);
+
+            // *****Feature 1 *********************************************************************
 
             // step-1-find minima
 
-           int min =arr_trans.get(0);
+            int min =arr_trans.get(0);
             for (int i=0;i<arr_trans.size(); i++){
                 if(arr_trans.get(i)< min){
                     min = arr_trans.get(i);
                 }
             }
-            //System.out.println(min);
+
 
             // step-2-find minima index
 
@@ -1154,176 +1215,90 @@ public class oneStopService extends AppCompatActivity {
                     break;
                 }
             }
-
+            Log.i("feature11", "" + min);
 
             // step-3-find minima level
 
             float sumMinima=0;
-            for (int k=indexOfMinima; k<indexOfMinima+100; k++)
+            for (int k=indexOfMinima; k<indexOfMinima+10; k++)
 
             {
                 sumMinima+=arr_trans.get(k);
             }
-            float avgMinima=sumMinima/100;
-            Log.i("feature1", "" + avgMinima);
+            float avgMinima=sumMinima/10;
+            Log.i("feature12", "" + avgMinima);
 
+            // ******Feature 4 ***********
 
-            // *****Feature 2 **********
-            // step-1-find maxima
-
-            int max =arr_trans.get(0);
-            for (int l=0;l<arr_trans.size(); l++){
-                if(arr_trans.get(l)> max){
-                    max = arr_trans.get(l);
-                }
-            }
-
-            // step-2-find maxima index
-
-            int indexOfMaxima=0;
-
-            for (int m=0; m<arr_trans.size(); m++)
-
-            {
-                if (max==arr_trans.get(m)){
-                    indexOfMaxima=m;
-                    break;
-                }
-            }
-
-            // step-3-find maxima level
-
-            float sumMaxima=0;
-            for (int n=indexOfMinima-15; n<indexOfMaxima+15; n++)
-
-            {
-                sumMaxima+=arr_trans.get(n);
-            }
-            float avgMaxima=sumMaxima/20;
-            Log.i("feature2", "" + avgMaxima);
-
-
-           // ****feature 3*******
-
-            // step-1-find index of delay
-
-            int indexOfDelay=0;
-
-            for (int p=0; p<arr_trans.size(); p++)
-
-            {
-                if (((arr_trans.get(p))-2500)<5){
-                    indexOfDelay=p;
-                    break;
-                }
-            }
-            Log.i("feature3", "" + indexOfDelay);
-
-            // Multivariate regression
-
-            temperature= 134.44-(0.0773*(indexOfMinima));
-            double temperature2= -0.1478*indexOfMinima+164.7;
-            //temperature=temperature2;
-            Log.i("temp", "" + temperature2);
-            ratingOfEOI = (temperature - 97) / 10;
-
-            if(ratingOfEOI<0){
-                ratingOfEOI=0;
-            }else if(ratingOfEOI>1){
-                ratingOfEOI=1;
-            }
-
-            Log.i("sizer", "" + arr_received.size());
-            Log.i("sizet", "" + arr_trans.size());
-            for (int j = 0; j < arr_trans.size(); j++) {
-                sum += arr_trans.get(j);
+            for (int s = 0; s < arr_trans.size(); s++) {
+                sum += arr_trans.get(s);
             }
             avgValue = sum / arr_trans.size();
 
-            Log.i("Avg", "" + avgValue);
+            Log.i("feature4", "" + avgValue);
 
-            for (int k = 0; k < arr_trans.size(); k++) {
-                if (arr_trans.get(k) >= avgValue) {
-                    arr_processed1.add(arr_trans.get(k));
+            // ********** Multivariate regression **************************************************
+            // equation for temperature
+            temperature= 230.0-0.00142*avgMinima-0.04203*avgMaxima-0.21037*indexOfDelay;
 
-                } else {
-                    arr_processed2.add(arr_trans.get(k));
-                }
-            }
+            double temp2=228.6-0.04243*avgMaxima-0.21267*indexOfDelay;
+            Log.i("temp", "" + temp2);
+            Log.i("sizer", "" + arr_received.size());
+            Log.i("sizet", "" + arr_trans.size());
+            Log.i("sizep", "" + arr_processed1.size());
 
-            Log.i("size1", "" + arr_processed1.size());
-            Log.i("size2", "" + arr_processed2.size());
-            for (int j = 0; j < arr_processed1.size(); j++) {
-                sum1 += arr_processed1.get(j);
-            }
-            avgValue1 = sum1 / arr_processed1.size();
-
-            for (int j = 0; j < arr_processed2.size(); j++) {
-                sum2 += arr_processed2.get(j);
-            }
-            avgValue2 = sum2 / arr_processed2.size();
-
-            resultVoltage = avgValue1 - avgValue2;
-            Log.i("Result", "" + resultVoltage);
-
-            //temperature=(resultVoltage/1000)*105;
-
-            //String sSeverity="";
-            //String result = dexcallFluSeverity(new Integer(100));
-            //String result = dexcallFluSeverity(new Integer(Math.round(resultVoltage)));
-
-
-            /*try {
-                sTemperature=String.valueOf(new DecimalFormat("###.##").format(temperature));
+            try {
+                sTemperature = String.valueOf(new DecimalFormat("###.##").format(temperature));
                 ratingOfEOI = (temperature - 97) / 10;
+                if(ratingOfEOI<0){
+                    ratingOfEOI=0;
+                }else if(ratingOfEOI>1){
+                    ratingOfEOI=1;
+                }
                 sEOI = new DecimalFormat("##.##").format(ratingOfEOI);
                 sSeverity = new DecimalFormat("##.##").format(100 * ratingOfEOI);
-                */
 
-            if (temperature<= 97.5) {
-                //prompt = "Normal Temperature";
-                arrow1.setVisibility(View.VISIBLE);
-                //sEOI="0.0";
-                //sSeverity="0.0";
-            } else if (temperature <= 98.5) {
-                //prompt = "Normal Temperature";
-                arrow2.setVisibility(View.VISIBLE);
-            } else if (temperature <= 99.5) {
-                //prompt = "Normal Temperature";
-                arrow3.setVisibility(View.VISIBLE);
-            } else if (temperature <= 100.5) {
-                //prompt = "Normal Temperature";
-                arrow4.setVisibility(View.VISIBLE);
-            } else if (temperature <= 101.5) {
-                //prompt = "Low Fever,\nconsider consulting your doctor";
-                arrow5.setVisibility(View.VISIBLE);
-            } else if (temperature <= 102.5) {
-                //prompt = "Medium Fever,\nConsult your doctor";
-                arrow6.setVisibility(View.VISIBLE);
-            } else if (temperature <= 103.5) {
-                //prompt = "High Fever,\nConsult your doctor";
-                arrow7.setVisibility(View.VISIBLE);
-            } else if (temperature <= 104.5) {
-                //prompt = "High Fever,\nConsult your doctor";
-                arrow8.setVisibility(View.VISIBLE);
-            } else if (temperature <= 105.5) {
-                //prompt = "Very High Fever,\nConsult your doctor immediately";
-                arrow9.setVisibility(View.VISIBLE);
-            } else if (temperature <= 106.5) {
-                //prompt = "Very High Fever,\nConsult your doctor immediately";
-                arrow10.setVisibility(View.VISIBLE);
-            } else if (temperature >= 106.5) {
-                //prompt = "Extremely High Fever,\nConsult your doctor immediately";
-                arrow11.setVisibility(View.VISIBLE);
-            }
-
-             /*
-
+                if (temperature <= 97.5) {
+                    //prompt = "Normal Temperature";
+                    arrow1.setVisibility(View.VISIBLE);
+                    //sEOI="0.0";
+                    //sSeverity="0.0";
+                } else if (temperature <= 98.5) {
+                    //prompt = "Normal Temperature";
+                    arrow2.setVisibility(View.VISIBLE);
+                } else if (temperature <= 99.5) {
+                    //prompt = "Normal Temperature";
+                    arrow3.setVisibility(View.VISIBLE);
+                } else if (temperature <= 100.5) {
+                    //prompt = "Normal Temperature";
+                    arrow4.setVisibility(View.VISIBLE);
+                } else if (temperature <= 101.5) {
+                    //prompt = "Low Fever,\nconsider consulting your doctor";
+                    arrow5.setVisibility(View.VISIBLE);
+                } else if (temperature <= 102.5) {
+                    //prompt = "Medium Fever,\nConsult your doctor";
+                    arrow6.setVisibility(View.VISIBLE);
+                } else if (temperature <= 103.5) {
+                    //prompt = "High Fever,\nConsult your doctor";
+                    arrow7.setVisibility(View.VISIBLE);
+                } else if (temperature <= 104.5) {
+                    //prompt = "High Fever,\nConsult your doctor";
+                    arrow8.setVisibility(View.VISIBLE);
+                } else if (temperature <= 105.5) {
+                    //prompt = "Very High Fever,\nConsult your doctor immediately";
+                    arrow9.setVisibility(View.VISIBLE);
+                } else if (temperature <= 106.5) {
+                    //prompt = "Very High Fever,\nConsult your doctor immediately";
+                    arrow10.setVisibility(View.VISIBLE);
+                } else if (temperature >= 106.5) {
+                    //prompt = "Extremely High Fever,\nConsult your doctor immediately";
+                    arrow11.setVisibility(View.VISIBLE);
+                }
             } catch (NumberFormatException e) {
 
-                prompt = "Invalid Data";
-                gradient.setVisibility(View.INVISIBLE);
-            }*/
+                //prompt = "Invalid Data";
+                gradientFlu.setVisibility(View.INVISIBLE);
+            }
 
 
 
@@ -1335,7 +1310,7 @@ public class oneStopService extends AppCompatActivity {
             Textv.setText(String.format("%.1f",temperature)+"°F");
 
             eoiValue=String.format("%.2f",ratingOfEOI);
-            severityView.setText(eoiValue);
+            severityView.setText(sSeverity);
 
 
             //Vprompt.append(prompt );
@@ -1392,7 +1367,7 @@ public class oneStopService extends AppCompatActivity {
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm", Locale.US);
             Date now = new Date();
-            String fileName = formatter.format(now)+ ".csv";
+            String fileName = fileSeq+formatter.format(now)+ ".csv";
             String csv = "/storage/emulated/0/project/"+fileName;
             FileWriter file_writer = new FileWriter(csv, true);
             String s = c.get(Calendar.YEAR) + "," + (c.get(Calendar.MONTH) + 1) + "," + c.get(Calendar.DATE) + "," + c.get(Calendar.HOUR) + "," + c.get(Calendar.MINUTE) + "," + c.get(Calendar.SECOND) + "," + c.get(Calendar.MILLISECOND) + "," + x + "\n";

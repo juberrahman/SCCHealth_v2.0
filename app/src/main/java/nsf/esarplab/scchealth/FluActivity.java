@@ -776,45 +776,8 @@ public class FluActivity extends AppCompatActivity {
                 }
             }
 
-            // *****Feature 1 **********
 
-            // step-1-find minima
-
-            int min =arr_processed1.get(0);
-            for (int i=0;i<arr_processed1.size(); i++){
-                if(arr_processed1.get(i)< min){
-                    min = arr_processed1.get(i);
-                }
-            }
-            //System.out.println(min);
-
-            // step-2-find minima index
-
-            int indexOfMinima=0;
-
-            for (int j=0; j<arr_processed1.size(); j++)
-
-            {
-                if (min==arr_processed1.get(j)){
-                    indexOfMinima=j;
-                    break;
-                }
-            }
-            Log.i("feature11", "" + min);
-
-            // step-3-find minima level
-
-            float sumMinima=0;
-            for (int k=indexOfMinima; k<indexOfMinima+10; k++)
-
-            {
-                sumMinima+=arr_processed1.get(k);
-            }
-            float avgMinima=sumMinima/10;
-            Log.i("feature12", "" + avgMinima);
-
-
-            // *****Feature 2 **********
+            // *****Feature 2 **********************************************************************
             // step-1-find maxima
 
             int max =arr_processed1.get(0);
@@ -848,8 +811,7 @@ public class FluActivity extends AppCompatActivity {
             float avgMaxima=sumMaxima/20;
             Log.i("feature22", "" + avgMaxima);
 
-
-            // ****feature 3*******
+            // ****feature 3************************************************************************
 
             // step-1-find index of delay
 
@@ -872,7 +834,44 @@ public class FluActivity extends AppCompatActivity {
             }
             Log.i("feature3", "" + indexOfDelay);
 
-            // ******Feature 4 ***********
+            // *****Feature 1 *********************************************************************
+
+            // step-1-find minima
+
+            int min =arr_trans.get(0);
+            for (int i=0;i<arr_trans.size(); i++){
+                if(arr_trans.get(i)< min){
+                    min = arr_trans.get(i);
+                }
+            }
+            //System.out.println(min);
+
+            // step-2-find minima index
+
+            int indexOfMinima=0;
+
+            for (int j=0; j<arr_trans.size(); j++)
+
+            {
+                if (min==arr_trans.get(j)){
+                    indexOfMinima=j;
+                    break;
+                }
+            }
+            Log.i("feature11", "" + min);
+
+            // step-3-find minima level
+
+            float sumMinima=0;
+            for (int k=indexOfMinima; k<indexOfMinima+10; k++)
+
+            {
+                sumMinima+=arr_trans.get(k);
+            }
+            float avgMinima=sumMinima/10;
+            Log.i("feature12", "" + avgMinima);
+
+            // ******Feature 4 *********************************************************************
 
             for (int s = 0; s < arr_trans.size(); s++) {
                 sum += arr_trans.get(s);
@@ -895,6 +894,11 @@ public class FluActivity extends AppCompatActivity {
             try {
                 sTemperature=String.valueOf(new DecimalFormat("###.##").format(temperature));
                 ratingOfEOI = (temperature - 97) / 10;
+                if(ratingOfEOI<0){
+                    ratingOfEOI=0;
+                }else if(ratingOfEOI>1){
+                    ratingOfEOI=1;
+                }
                 sEOI = new DecimalFormat("##.##").format(ratingOfEOI);
                 sSeverity = new DecimalFormat("##.##").format(100 * ratingOfEOI);
 

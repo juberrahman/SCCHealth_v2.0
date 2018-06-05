@@ -186,7 +186,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="inst_flu"><b>Instructions:</b>\n\n1. Put on the wearable Temperature Sensor.\n2. Power On the Scanner.\n3. Click on <b>Connect Scanner</b> button.\n4. Click on <b>Start Test</b> after getting connected. \n5. Click on <b>Result</b> after data collection.\n\n</string>
+    <string name="inst_flu"><b>Instructions:</b>\n\n1. Put on the wearable Temperature Sensor.\n2. Power On the Scanner.\n3. Click on <b>Connect Scanner</b> button.\n4. Click on <b>Start Test</b> after getting connected. \n5. Click on <b>Compute</b> after data collection.\n6. Click on <b>Refresh</b> to start test again.\n\n</string>
 
     <string name="share_with_scc">Sharing helps you to keep track of your disease chronologically and also it helps to see the spatial ditribution of the disease within the city. \n\nBy clicking on SHARE, you accept to share anonymous severity data with the Smart and Connected Community.</string>
     <string name="info_flu"><b>Flu:</b>\n\nInfluenza commonly known as "the flu", is an infectious disease caused by an influenza virus. Symptoms can be mild to severe. The most common symptoms include: a high fever, runny nose, sore throat, muscle pains, headache, coughing, and feeling tired.\n\nNormal body temperature varies by person, age, activity, and time of day. The average normal body temperature is generally accepted as 98.6°F. Some studies have shown that the normal body temperature can have a wide range, from 97°F to 99°F . A temperature over 100.4°F most often means you have a fever caused by an infection or illness.

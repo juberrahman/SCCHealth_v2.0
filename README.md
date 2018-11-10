@@ -4,9 +4,7 @@ Please visit Lab website at http://www.memphis.edu/esarp/
 
 The app has been developed by Md Juber Rahman
 
-Some Screenshots from the app ![alt text](https://github.com/juberrahman/SCCHealth_v2.0/blob/master/Screenshot_20170925-195051%5B1%5D.png)
-![alt text](https://github.com/juberrahman/SCCHealth_v2.0/blob/master/Screenshot_20171003-104234%5B1%5D.png)
-![alt text](https://github.com/juberrahman/SCCHealth_v2.0/blob/master/Screenshot_20171107-141246%5B1%5D.png)
-![alt text](https://github.com/juberrahman/SCCHealth_v2.0/blob/master/Screenshot_20180724-124500%5B1%5D.png)
-![alt text]https://github.com/juberrahman/SCCHealth_v2.0/blob/master/Screenshot_20181019-161227%5B1%5D.png
+Some Screenshots from the app ![alt text](https://github.com/juberrahman/SCCHealth_v2.0/blob/master/Screenshot_20170925-195051%5B1%5D.png)![alt text](https://github.com/juberrahman/SCCHealth_v2.0/blob/master/Screenshot_20171003-104234%5B1%5D.png)
+![alt text](https://github.com/juberrahman/SCCHealth_v2.0/blob/master/Screenshot_20171107-141246%5B1%5D.png)![alt text](https://github.com/juberrahman/SCCHealth_v2.0/blob/master/Screenshot_20180724-124500%5B1%5D.png)
+![alt text](https://github.com/juberrahman/SCCHealth_v2.0/blob/master/Screenshot_20181019-161227%5B1%5D.png)
 
